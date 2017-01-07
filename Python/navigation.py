@@ -1,5 +1,5 @@
 from sumopy.interface import SumoController
-import constants as c
+import constants as con
 import math
 
 # def move(self, speed, turn=0, duration=1.0, block=True):
@@ -28,11 +28,11 @@ def move_to_point(delta_x, delta_y, speed):
 
 # This should roughly give the correct distance
 def get_distance(speed, time):
-  return (speed * c.DISTANCE_CONSTANT) * time + speed * c.STOP_CONSTANT
+  return (speed * con.DISTANCE_CONSTANT) * time + speed * con.STOP_CONSTANT
 
 # This is a rewrite of the above formula
 def get_duration(speed, distance):
-  return float(distance - (speed * c.STOP_CONSTANT)) / float(speed * c.DISTANCE_CONSTANT)
+  return float(distance - (speed * con.STOP_CONSTANT)) / float(speed * con.DISTANCE_CONSTANT)
 
 
 def circle_radius(delta_x, delta_y):
@@ -45,27 +45,12 @@ def get_path_length(delta_x, delta_y):
   return 0.25 * 2 * math.pi * radius
 
 def get_turnspeed(angle_per_sec):
-  return c.BASIC_TURNSPEED * angle_per_sec
+  return con.BASIC_TURNSPEED * angle_per_sec
 
   
-# lets measure the rotation in degrees per second
-# turnspeed	degrees/second
-# 22-23		180 +- (little more, little less) pi
-# 45		360 +- 2pi
-# 90		720 (precise) 4pi
-
-# lets measure distance
-
-# speed duration distance (y = 55t + 8?)
-# 20	1	63
-# 20    2       118
-# 20	3	174
-
-# 40	1	125 (2x stop distance?)
-# 40	2	220 (probably because low battery a bit low)
-
-#print circle_radius(6.2,2.5)
-#print duration(20,63)
-move_to_point(200,200,60)
+if __name__ == '__main__':
+  #print circle_radius(6.2,2.5)
+  #print duration(20,63)
+  move_to_point(200,200,60)
 
 
