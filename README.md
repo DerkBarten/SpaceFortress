@@ -44,11 +44,15 @@ pip install -r gym/requirements.txt
 ```
 Since we have already installed the spacefortress environment in gym, it is far easier to use our gym folder than installing it yourself. Using the following commands we can move the folder to the appropriate location.. 
 ```sh
-# Move the gym folder to the place where python modules are installed, this is the default location
-sudo mv gym /usr/lib/python2.7/dist-packages/
+# Copy the gym folder to the place where python modules are installed, this is the default location
+sudo cp gym /usr/lib/python2.7/dist-packages/
 # Create a symbolic link to the environments of gym
 sudo ln -s /usr/lib/python2.7/dist-packages/gym/envs/ "$PWD/Envs"
 ```
+
+Note: Please don't remove the gym folder if you are developer on this project since removing it here will also remove it from git. If you don't intend to commit, you can delete it if you want.
+If you are a developer and want to make changes to the gym environment code, please edit the files in the repo, not the ones you just installed in python folder. To see the updated 
+code in python, replace the old gym folder in the python dist-packages folder with the new one.
 
 ### Cairo
 Cairo is a 2D graphics library with support for multiple output devices. Currently supported output targets include the X Window System (via both Xlib and XCB), Quartz, Win32, image buffers, PostScript, PDF, and SVG file output. Experimental backends include OpenGL, BeOS, OS/2, and DirectFB. The game uses this engine to render scenes. We can get is very easily with aptitude package manager:
