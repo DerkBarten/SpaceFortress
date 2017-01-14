@@ -40,19 +40,10 @@ rm -rf neon
 Install prerequisites:
 ```sh
 # Use 'sudo apt-get install pip' to get pip if you haven't already
-pip install -r gym/requirements.txt
+sudo pip install -r gym/requirements.txt
+# add the gym directory to the python path
+echo "export PYTHONPATH=$PYTHONPATH:$PWD" >> ~/.bashrc
 ```
-Since we have already installed the spacefortress environment in gym, it is far easier to use our gym folder than installing it yourself. Using the following commands we can move the folder to the appropriate location.. 
-```sh
-# Copy the gym folder to the place where python modules are installed, this is the default location
-sudo cp gym /usr/lib/python2.7/dist-packages/
-# Create a symbolic link to the environments of gym
-sudo ln -s /usr/lib/python2.7/dist-packages/gym/envs/ "$PWD/Envs"
-```
-
-Note: Please don't remove the gym folder if you are developer on this project since removing it here will also remove it from git. If you don't intend to commit, you can delete it if you want.
-If you are a developer and want to make changes to the gym environment code, please edit the files in the repo, not the ones you just installed in python folder. To see the updated 
-code in python, replace the old gym folder in the python dist-packages folder with the new one.
 
 ### Cairo
 Cairo is a 2D graphics library with support for multiple output devices. Currently supported output targets include the X Window System (via both Xlib and XCB), Quartz, Win32, image buffers, PostScript, PDF, and SVG file output. Experimental backends include OpenGL, BeOS, OS/2, and DirectFB. The game uses this engine to render scenes. We can get is very easily with aptitude package manager:
@@ -77,7 +68,6 @@ make clean  # removes all built files
 A few notes:
 * When using the make commands, please make sure you have first installed gym, since the Makefile relies on the symbolic link redirecting to the gym environments
 * In the Makefile, it is possible to build without GUI support by setting USE_GUI to 'no'
-* You need execute the Makefile as root since the shared library files will be placed in the python dist-packages folder where normal users have no permissions.
 
 ### Other dependencies
 A list with dependencies we encountered during installation/runtime ourselves.

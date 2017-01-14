@@ -40,7 +40,7 @@ if render_mode.endswith("debug"):
 	print("Note that this script should be run as super user under OS X 👁")
 
 
-env = gym.make('AIM-v0')
+env = gym.make('SFS-v0')
 
 # Configure enviroment
 #-------------------------------
