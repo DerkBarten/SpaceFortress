@@ -8,10 +8,10 @@ from random import random
 import cv2 # remove at one point
 from time import sleep
 from pynput.keyboard import Key, Listener
+import argparse
+from settings import *
 
-
-
-
+global current_key
 def on_press(key):
 	#		LEFT = 0
 	#		UP = 1
@@ -28,33 +28,35 @@ def on_press(key):
 
 
 def on_release(key):
-	pass
-
-def on_release(key):
-	pass
-
-global render_mode
-render_mode = "minimal_debug"
-current_key = 3
-if render_mode.endswith("debug"):
-	print("Note that this script should be run as super user under OS X 👁")
+	return
 
 
+parser = argparse.ArgumentParser()
+arg = parser.add_argument_group('Rendering')
+arg.add_argument("--mode", choices=[RenderMode.HUMAN.value, RenderMode.MINIMAL.value, RenderMode.TERMINAL.value, RenderMode.RGB_ARRAY.value], 
+		  default=RenderMode.HUMAN.value, help="Render Modes")
+arg.add_argument("--speed", choices=[RenderSpeed.SLOW.value, RenderSpeed.FAST.value], default=RenderSpeed.FAST.value, help="Determine the render speed of the game")
+args = parser.parse_args()
+
+settings = Settings()
+settings.render_mode=args.mode
+settings.render_speed=args.speed
 env = gym.make('SFS-v0')
 
 # Configure enviroment
 #-------------------------------
+env.giveSettings(settings)
+env.configure(mode=settings.render_mode, record_path=None, no_direction=False, frame_skip=1)
 
-env.configure(mode=render_mode, record_path=None, no_direction=False, frame_skip=1)
+#with Listener(on_press=on_press, on_release=on_release) as listener:
+		
 
-
-
-with Listener(on_press=on_press, on_release=on_release) as listener:
-	for game in range(5):
+def play(times=5, max_steps=250000):
+	for game in range(times):
 		env.reset()
-		for t in range(250000):
+		for t in range(max_steps):
 			env.render()
-			if render_mode.endswith('debug'):
+			if settings.debug == True:
 				action = current_key
 			else:
 				action = env.action_space.sample()
@@ -81,3 +83,5 @@ with Listener(on_press=on_press, on_release=on_release) as listener:
 
 #	env.write_out_stats("test")
 #	env.close()
+	
+play()

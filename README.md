@@ -41,6 +41,9 @@ Install prerequisites:
 ```sh
 # Use 'sudo apt-get install pip' to get pip if you haven't already
 sudo pip install -r gym/requirements.txt
+```
+Connect python to gym
+```sh
 # add the gym directory to the python path
 echo "export PYTHONPATH=$PYTHONPATH:$PWD" >> ~/.bashrc
 ```
@@ -65,9 +68,6 @@ make SFC
 make all    # makes all versions of the game
 make clean  # removes all built files
 ```
-A few notes:
-* When using the make commands, please make sure you have first installed gym, since the Makefile relies on the symbolic link redirecting to the gym environments
-* In the Makefile, it is possible to build without GUI support by setting USE_GUI to 'no'
 
 ### Other dependencies
 A list with dependencies we encountered during installation/runtime ourselves.

@@ -184,6 +184,9 @@ class Env(object):
 
         return self._render(mode=mode, close=close)
 
+    #def setSettings(self, settings):
+	#return self._setSettings(settings)
+
     def close(self):
         """Override _close in your subclass to perform any necessary cleanup.
 
@@ -334,6 +337,9 @@ class Wrapper(Env):
 
     def _close(self):
         return self.env.close()
+
+    #def _setSettings(self):
+	#return self.env.setSettings()
 
     def _configure(self, *args, **kwargs):
         return self.env.configure(*args, **kwargs)

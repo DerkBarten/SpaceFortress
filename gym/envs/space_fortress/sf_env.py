@@ -15,10 +15,12 @@ import os
 import csv
 from pathlib import Path
 import sys
+from settings import *
+import time
 
 class SFEnv(gym.Env):
 	# - Class variables
-	metadata = {'render.modes': ['rgb_array', 'human', 'human_sleep', 'minimal', 'minimal_sleep', 'minimal_debug', 'human_debug'], 'configure.required' : True}
+	metadata = {'render.modes': ['rgb_array', 'human', 'minimal', 'terminal'], 'configure.required' : True}
 
 	# Human renders a full RGB version of the game at the original size, while minimal only shows
 	# the data the network
@@ -75,8 +77,11 @@ class SFEnv(gym.Env):
 		self.n_bytes = ((int(self.screen_height/self.scale)) * (int(self.screen_width/self.scale)))
 		# ... which happens to be equal to the amount of pixels in the image
 		# self.observation_space =
-
-
+	
+	def giveSettings(self, settings):
+		self.settings = settings
+		print "after _give = " + str(self.settings.render_mode)
+		
 	@property
 	def _n_actions(self):
 		return len(self._action_set)
@@ -112,56 +117,63 @@ class SFEnv(gym.Env):
 		return ob, reward, done, {}
 
 
-	# We ignore the mode parameter here because it's set in _configure
+	# We ignore the mode paramseter here because it's set in _configure
 	# Not entirely sure what close here does, although you probably have to implement this
 	# behaviour yourself
-	def _render(self, mode=None, close=False):
-		if not self.mode == 'rgb_array':
-			zzz = 1
-			if self.mode.startswith('minimal'):
-				new_frame = self.screen().contents
-				img = np.ctypeslib.as_array(new_frame)
-				img = np.reshape(img, (int(self.screen_height/self.scale), int(self.screen_width/self.scale)))
+	def _render(self, mode=Settings.DEFAULT_RENDER_MODE, close=False):
+		new_frame = self.screen().contents
+		img = np.ctypeslib.as_array(new_frame)
+		render_delay = None
+		if self.settings.render_mode == RenderMode.MINIMAL.value:
+			img = np.reshape(img, (int(self.screen_height/self.scale), int(self.screen_width/self.scale)))
+			#img = cv2.resize(img, (84, 84), interpolation=cv2.INTER_AREA) # Note the resize
+		elif self.settings.render_mode == RenderMode.HUMAN.value:
+			new_frame = self.pretty_screen().contents
+			img = np.ctypeslib.as_array(new_frame)
+			img = np.reshape(img, (self.screen_height, self.screen_width, 2))
+			img = cv2.cvtColor(img, cv2.COLOR_BGR5652RGB)
+			img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
+		elif self.settings.render_mode == RenderMode.TERMINAL.value:
+			new_frame = self.screen().contents
+			img = np.ctypeslib.as_array(new_frame)
+			img = np.reshape(img, (int(self.screen_height/self.scale), int(self.screen_width/self.scale)))
 #				img = cv2.resize(img, (84, 84), interpolation=cv2.INTER_AREA) # Note the resize
-				if self.mode == 'minimal_sleep':
-					zzz = 42
-			elif self.mode.startswith('human'):
-				new_frame = self.pretty_screen().contents
-				img = np.ctypeslib.as_array(new_frame)
-				if self.mode=='human_sleep':
-					zzz = 43 # Sleep for about 50 ms, the original delay (more because it seemed fast)
-#					zzz = 0.048
-				img = np.reshape(img, (self.screen_height, self.screen_width, 2))
-				img = cv2.cvtColor(img, cv2.COLOR_BGR5652RGB)
-				img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
-			elif self.mode.startswith('terminal_array'):
-				new_frame = self.screen().contents
-				img = np.ctypeslib.as_array(new_frame)
-				img = np.reshape(img, (int(self.screen_height/self.scale), int(self.screen_width/self.scale)))
-#				img = cv2.resize(img, (84, 84), interpolation=cv2.INTER_AREA) # Note the resize
-				array_string = ""
-				# create a pretty string from the array
-				for row in img.tolist():
-					for p in row:
-						pixel_str = str(p)
-						spaces = " "
-						if len(pixel_str) < 2:
-							spaces += " "
-						array_string += pixel_str + spaces
-					array_string += "\n"
+			array_string = ""
+			# create a pretty string from the array
+			for row in img.tolist():
+				for p in row:
+					pixel_str = str(p)
+					spaces = " "
+					if len(pixel_str) < 2:
+						spaces += " "
+					array_string += pixel_str + spaces
+				array_string += "\n"
 
-				print(chr(27) + "[2J")
-
-				zzz = 300
-
-			if self.mode.endswith('debug'):
-				zzz = 0
-			if self.record_path is not None:
-				current_time = str(datetime.datetime.now().time().isoformat()).replace("/", ":")
-				cv2.imwrite(self.record_path + "/sf" + current_time + ".png", img)
-			if not self.mode.startswith('terminal_array'):
-				cv2.imshow(self.game_name, img)
-			cv2.waitKey(zzz)
+			print(chr(27) + "[2J")
+			render_delay = 300
+		else:
+			print "ERROR: No valid rendermode specified"
+			exit(0)
+		
+		if self.settings.render_speed == RenderSpeed.FAST.value:
+			render_delay = 10
+		elif self.settings.render_speed == RenderSpeed.SLOW.value:
+			render_delay = 43
+		elif self.settings.getDebug() == True:
+			render_delay = 0
+		else:
+			print "Invalid Render Speed"
+			exit(0)
+		
+		if self.record_path is not None:
+			current_time = str(datetime.datetime.now().time().isoformat()).replace("/", ":")
+			cv2.imwrite(self.record_path + "/sf" + current_time + ".png", img)
+		
+		if not self.settings.render_mode == RenderMode.TERMINAL.value:
+			cv2.imshow(self.game_name, img)
+			
+		cv2.waitKey(render_delay)
+		
 
 	# return: (states, observations)
 	def _reset(self):
@@ -205,8 +217,7 @@ class SFEnv(gym.Env):
 		self.stop_drawing()
 
 
-	def _configure(self, mode='rgb_array', debug=False, record_path=None, no_direction=False, lib_suffix="", frame_skip=3, libpath="shared"):
-		self.mode = mode
+	def _configure(self, mode=Settings.DEFAULT_RENDER_MODE, debug=False, record_path=None, no_direction=False, lib_suffix="", frame_skip=3, libpath="shared"):
 		os = platform
 
 		self.debug = debug
@@ -219,10 +230,10 @@ class SFEnv(gym.Env):
 		elif self.game.lower().startswith("sfc"):
 			libname = "control"
 
-		if self.mode != 'rgb_array':
+		if self.settings.render_mode != RenderMode.RGB_ARRAY:
 			cv2.namedWindow(self.game_name)
 
-		if self.mode.startswith('human'):
+		if self.settings.render_mode == RenderMode.HUMAN:
 			libname += "_frame_lib_FULL"
 		else:
 			libname += "_frame_lib"
