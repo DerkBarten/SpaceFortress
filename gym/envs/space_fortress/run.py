@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 #!/usr/bin/env python
 import gym
 import sys
@@ -11,47 +9,31 @@ from pynput.keyboard import Key, Listener
 import argparse
 from settings import *
 
-global current_key
-def on_press(key):
-	#		LEFT = 0
-	#		UP = 1
-	#		RIGHT = 2
-	#		SHOOT = 3
-	global current_key
-
-	key_to_action = {Key.left : 0, Key.up : 1, Key.right : 2, Key.space : 3, Key.down : 3}
-
-	if key in key_to_action.keys():
-		current_key = key_to_action[key]
-	else:
-		current_key = 4
-
-
-def on_release(key):
-	return
-
-
+# the commandline options
 parser = argparse.ArgumentParser()
-arg = parser.add_argument_group('Rendering')
-arg.add_argument("--mode", choices=[RenderMode.HUMAN.value, RenderMode.MINIMAL.value, RenderMode.TERMINAL.value, RenderMode.RGB_ARRAY.value], 
+garg = parser.add_argument_group('Game')
+garg.add_argument("game", choices=[Games.SFS.value, Games.SF.value, Games.SFC.value, Games.AIM.value], help="Specify which game you want to run")
+rarg = parser.add_argument_group('Rendering')
+rarg.add_argument("-m", choices=[RenderMode.HUMAN.value, RenderMode.MINIMAL.value, RenderMode.TERMINAL.value, RenderMode.RGB_ARRAY.value], 
 		  default=RenderMode.HUMAN.value, help="Render Modes")
-arg.add_argument("--speed", choices=[RenderSpeed.SLOW.value, RenderSpeed.FAST.value], default=RenderSpeed.FAST.value, help="Determine the render speed of the game")
-args = parser.parse_args()
+rarg.add_argument("-s", choices=[RenderSpeed.SLOW_NAME.value, RenderSpeed.FAST_NAME.value], default=RenderSpeed.FAST_NAME.value, help="Determine the render speed of the game")
+rargs = parser.parse_args()
+gargs = parser.parse_args()
 
 settings = Settings()
-settings.render_mode=args.mode
-settings.render_speed=args.speed
-env = gym.make('SFS-v0')
+settings.render_mode=rargs.m
+settings.render_speed=rargs.s
+
+game_name = gargs.game + "-" + GAME_VERSION
+env = gym.make(game_name)
 
 # Configure enviroment
 #-------------------------------
 env.giveSettings(settings)
 env.configure(mode=settings.render_mode, record_path=None, no_direction=False, frame_skip=1)
-
-#with Listener(on_press=on_press, on_release=on_release) as listener:
 		
 
-def play(times=5, max_steps=250000):
+def play(times=DEFAULT_TIMES, max_steps=DEFAULT_MAXSTEPS):
 	for game in range(times):
 		env.reset()
 		for t in range(max_steps):
@@ -60,28 +42,12 @@ def play(times=5, max_steps=250000):
 				action = current_key
 			else:
 				action = env.action_space.sample()
-
-
-			# Uncomment this for perfect play 👌
-	#           ==============================
-	#			if 0.7 < random():
-	#				action = env.best_action()
-	#			else:
-	#				env.best_waction()
-	#			==============================
-
 			observation, reward, done, _ = env.step(action)
-			print(reward)
-
 			if done:
 				print("terminal")
 				break
-	#			print("Done!")
-	#			count += 1
-				# print("Episode finished after {} timesteps".format(t+1))
-	#				break
-
-#	env.write_out_stats("test")
-#	env.close()
+	if WRITE_STATS:
+		env.write_out_stats("test")
+		env.close()
 	
 play()

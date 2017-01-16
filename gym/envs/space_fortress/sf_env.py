@@ -22,65 +22,49 @@ class SFEnv(gym.Env):
 	# - Class variables
 	metadata = {'render.modes': ['rgb_array', 'human', 'minimal', 'terminal'], 'configure.required' : True}
 
-	# Human renders a full RGB version of the game at the original size, while minimal only shows
-	# the data the network
-	# Human_Sleep is the same as above, but with an added delay to approximately emulate the
-	# original game's speed
-	def __init__(self, game='SFS'):
-		if game=="SFS":
+	def __init__(self, game=DEFAULT_GAME):
+		if game==Games.SFS.value:
 			self.game_name = "Simple Space Fortress V2"
-		elif game=="SF":
+		elif game==Games.SF.value:
 			self.game_name = "Space Fortress"
-		elif game=="AIM":
+		elif game==Games.AIM.value:
 			self.game_name = "Aiming Task"
-		elif game=="SFC":
+		elif game==Games.SFC.value:
 			self.game_name = "Control Task"
 		else:
 			print("Invalid game name")
 			sys.exit(0)
 
-		self.mode = 'rgb_array' # This gets overwritten by configure
+		self.mode = RenderMode.RGB_ARRAY
 		self.game = game
-		# self.prev_score = 0.0 # prev_score was removed in favor of reward
 		self.screen_height = 448
 		self.screen_width = 448
 
 		self.scale = 5.3 # The amount of (down) scaling of the screen height and width
 
 		# Space, left, right, up, nothing
-
-
 		#		LEFT = 0
 		#		UP = 1
 		#		RIGHT = 2
 		#		SHOOT = 3
 
-
-		actions_SFS = {0: 65361, 1 : 65362, 2 : 65363, 3 : 32}
-		actions_AIM = {0 : 32,  1 : 65363, 2 : 65361}
-		actions_Control = {0: 65361, 1 : 65362, 2 : 65363}
-
-		# stat collectors
-#		self.terminal_states = []
-
 		self._seed()
-		if game.lower().startswith("sfs"):
-			self._action_set = actions_SFS
-		elif game.lower().startswith("aim"):
-			self._action_set = actions_AIM
-		elif game.lower().startswith("sfc"):
-			self._action_set = actions_Control
-		else:
-			pass
-
+		if game == Games.SFS.value or game == Games.SF.value:
+			self._action_set = {0: 65361, 1 : 65362, 2 : 65363, 3 : 32}
+		if game == Games.AIM.value: 
+			self._action_set = {0 : 32,  1 : 65363, 2 : 65361}
+		if game == Games.SFC.value:
+			self._action_set = {0: 65361, 1 : 65362, 2 : 65363}
+			
+			
 		# The number of bytes to read in from the returned image pointer
 		self.n_bytes = ((int(self.screen_height/self.scale)) * (int(self.screen_width/self.scale)))
 		# ... which happens to be equal to the amount of pixels in the image
 		# self.observation_space =
 	
+	# recieve settings from run.py
 	def giveSettings(self, settings):
 		self.settings = settings
-		print "after _give = " + str(self.settings.render_mode)
 		
 	@property
 	def _n_actions(self):
@@ -117,9 +101,6 @@ class SFEnv(gym.Env):
 		return ob, reward, done, {}
 
 
-	# We ignore the mode paramseter here because it's set in _configure
-	# Not entirely sure what close here does, although you probably have to implement this
-	# behaviour yourself
 	def _render(self, mode=Settings.DEFAULT_RENDER_MODE, close=False):
 		new_frame = self.screen().contents
 		img = np.ctypeslib.as_array(new_frame)
@@ -155,10 +136,10 @@ class SFEnv(gym.Env):
 			print "ERROR: No valid rendermode specified"
 			exit(0)
 		
-		if self.settings.render_speed == RenderSpeed.FAST.value:
-			render_delay = 10
-		elif self.settings.render_speed == RenderSpeed.SLOW.value:
-			render_delay = 43
+		if self.settings.render_speed == RenderSpeed.FAST_NAME.value:
+			render_delay = RenderSpeed.FAST_VALUE.value
+		elif self.settings.render_speed == RenderSpeed.SLOW_NAME.value:
+			render_delay = RenderSpeed.SLOW_VALUE.value
 		elif self.settings.getDebug() == True:
 			render_delay = 0
 		else:
@@ -222,22 +203,21 @@ class SFEnv(gym.Env):
 
 		self.debug = debug
 		self.frame_skip = frame_skip
-
-		if self.game.lower() == ("sf") or self.game.lower() == ("sfs"):
-			libname = "sf"
-		elif self.game.lower().startswith("aim"):
-			libname = "aim"
-		elif self.game.lower().startswith("sfc"):
-			libname = "control"
-
+		
+		if self.game == Games.SFS.value:
+			libname = Games.SF.value.lower()
+		
+		elif self.game == Games.AIM.value or self.game == Games.SFC.value or self.game == Games.SF.value:  
+			libname = self.game.lower()
+		
 		if self.settings.render_mode != RenderMode.RGB_ARRAY:
 			cv2.namedWindow(self.game_name)
-
+		
+		libname += LIBRARY_NAME
 		if self.settings.render_mode == RenderMode.HUMAN:
-			libname += "_frame_lib_FULL"
-		else:
-			libname += "_frame_lib"
-		libname += lib_suffix + ".so"
+			libname += "_FULL"
+			
+		libname += ".so"
 
 		
 		self.update = ctypes.CDLL(libpath + '/'+libname).update_frame

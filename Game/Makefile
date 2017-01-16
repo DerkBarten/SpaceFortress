@@ -37,7 +37,7 @@ AIM Aim aim:
 SF Sf sf:
 	$(call build, SF_Cairo, sf)
 SFC Sfc sfc:
-	$(call build, SFC_Cairo, control)
+	$(call build, SFC_Cairo, sfc)
 
 ALL All all: AIM SF SFC
 
