@@ -14,7 +14,15 @@ Deep Q-learning agent for replicating DeepMind's results in paper "Human-level c
 ### Space Fortress
 An old DOS game, but pretty complex nevertheless. We will train a network to play this game.
 
+# Download
+Download the repository. Make sure you execute the command in which you want to install the repository.
+```sh
+sudo git clone https://github.com/Noswis/SpaceFortress.git 
+cd SpaceFortress
+```
+
 # Installation
+During the installation process, please make sure you are in the SpaceFortress folder.
 ### Neon
 [Neon](https://github.com/NervanaSystems/neon) is Nervana's Python based Deep Learning framework and achieves the fastest performance on modern deep neural networks such as AlexNet, VGG and GoogLeNet. Designed for ease-of-use and extensibility. The Simple DQN learning algorithm was built on neon, so we need to install this.
 
@@ -29,12 +37,12 @@ Check out and compile the code:
 ```sh
 git clone https://github.com/NervanaSystems/neon.git
 cd neon
-make sysinstall
+sudo make sysinstall
 ```
 Clean up the dowloaded folder
 ```sh
 cd ..
-rm -rf neon
+sudo rm -rf neon
 ```
 ### Gym
 Install prerequisites:
@@ -47,7 +55,7 @@ Connect python to gym
 # add the gym directory to the python path
 echo "export PYTHONPATH=$PYTHONPATH:$PWD" >> ~/.bashrc
 ```
-
+Note: please make sure the path doesn't have any spaces
 ### Cairo
 Cairo is a 2D graphics library with support for multiple output devices. Currently supported output targets include the X Window System (via both Xlib and XCB), Quartz, Win32, image buffers, PostScript, PDF, and SVG file output. Experimental backends include OpenGL, BeOS, OS/2, and DirectFB. The game uses this engine to render scenes. We can get is very easily with aptitude package manager:
 ```sh
@@ -55,6 +63,7 @@ sudo apt-get install libcairo2-dev
 ```
 If you run into any problems installing, please visit [this](https://www.cairographics.org/download/) page
 ### Shared Libraries
+Go to the Game folder
 The learning environment needs shared libraries, which can be built from the sourcecode of the SpaceFortress game. In the folder 'game' are multiple subfolders which are subtasks of the original game.
 * SF is the game with most elements included 
 * AIM is the stripped version of the game which focusses on the aiming task
@@ -62,20 +71,41 @@ The learning environment needs shared libraries, which can be built from the sou
 
 The Makefile has multple build options,
 ```sh
-make SF
-make AIM
-make SFC
-make all    # makes all versions of the game
-make clean  # removes all built files
+cd Game
+sudo make SF
+sudo make AIM
+sudo make SFC
+sudo make all    # makes all versions of the game
+sudo make clean  # removes all built files
 ```
 
 ### Other dependencies
 A list with dependencies we encountered during installation/runtime ourselves.
 ```sh
 sudo apt-get install python-xlib
-sudo apt-get install pynput
+sudo pip install pynput
 ```
 
 
 ## Run
 
+### 
+The trained network can be tested using the gym library. The main script is located in gym/envs/space_fortress
+and is named run.py. Run.py can be used in the following way.
+
+```sh
+usage: run.py [-h] [-m {human,minimal,terminal,rgb_array}] [-s {slow,fast}]
+              {SFS,SF,SFC,AIM}
+
+optional arguments:
+  -h, --help            show this help message and exit
+
+Game:
+  {SFS,SF,SFC,AIM}      Specify which game you want to run
+
+Rendering:
+  -m {human,minimal,terminal,rgb_array}
+                        Determine the render mode of the game
+  -s {slow,fast}        Determine the render speed of the game
+
+```

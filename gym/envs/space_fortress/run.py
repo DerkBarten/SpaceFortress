@@ -12,11 +12,13 @@ from settings import *
 # the commandline options
 parser = argparse.ArgumentParser()
 garg = parser.add_argument_group('Game')
-garg.add_argument("game", choices=[Games.SFS.value, Games.SF.value, Games.SFC.value, Games.AIM.value], help="Specify which game you want to run")
+garg.add_argument("-g", choices=[Games.SFS.value, Games.SF.value, Games.SFC.value, Games.AIM.value], 
+		  default=Games.SFS.value, help="Specify which game you want to run")
 rarg = parser.add_argument_group('Rendering')
 rarg.add_argument("-m", choices=[RenderMode.HUMAN.value, RenderMode.MINIMAL.value, RenderMode.TERMINAL.value, RenderMode.RGB_ARRAY.value], 
-		  default=RenderMode.HUMAN.value, help="Render Modes")
-rarg.add_argument("-s", choices=[RenderSpeed.SLOW_NAME.value, RenderSpeed.FAST_NAME.value], default=RenderSpeed.FAST_NAME.value, help="Determine the render speed of the game")
+		  default=RenderMode.HUMAN.value, help="Determine the render mode of the game")
+rarg.add_argument("-s", choices=[RenderSpeed.SLOW_NAME.value, RenderSpeed.FAST_NAME.value], 
+		  default=RenderSpeed.FAST_NAME.value, help="Determine the render speed of the game")
 rargs = parser.parse_args()
 gargs = parser.parse_args()
 
@@ -24,7 +26,7 @@ settings = Settings()
 settings.render_mode=rargs.m
 settings.render_speed=rargs.s
 
-game_name = gargs.game + "-" + GAME_VERSION
+game_name = gargs.g + "-" + GAME_VERSION
 env = gym.make(game_name)
 
 # Configure enviroment

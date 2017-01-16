@@ -218,8 +218,8 @@ class SFEnv(gym.Env):
 			libname += "_FULL"
 			
 		libname += ".so"
-
-		
+		#libpath = str(os.path.realpath(__file__)) + "/shared"
+		#print libpath
 		self.update = ctypes.CDLL(libpath + '/'+libname).update_frame
 		self.init_game = ctypes.CDLL(libpath +'/'+libname).start_drawing
 		self.act = ctypes.CDLL(libpath +'/'+libname).set_key
