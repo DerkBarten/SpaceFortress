@@ -2,5 +2,4 @@
 Envs
 Game/
 gym/**/*.pyc
-gym/error.pyc
 
