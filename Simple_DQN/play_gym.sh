@@ -10,10 +10,5 @@ if [ "$1" == "-h" ]; then
   exit 1;
 fi
 
-shift;shift
+python src/main.py  $game --environment gym --play_games 20 --display_screen human_sleep --load_weights $snapshot  $*
 
-if [ -d "/home/wijnand" ]; then
-  python2.7 src/main.py  $game --environment gym --play_games 20 --display_screen human_sleep --load_weights $snapshot  $*
-else
-  python src/main.py  $game --environment gym --play_games 20 --display_screen human_sleep --load_weights $snapshot  $*
-fi
