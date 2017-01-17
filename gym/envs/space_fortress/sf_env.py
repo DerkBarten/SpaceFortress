@@ -15,14 +15,14 @@ import os
 import csv
 from pathlib import Path
 import sys
-from settings import *
+from constants import *
 import time
 
 class SFEnv(gym.Env):
 	# - Class variables
 	metadata = {'render.modes': ['rgb_array', 'human', 'minimal', 'terminal'], 'configure.required' : True}
 
-	def __init__(self, game=DEFAULT_GAME):
+	def __init__(self, game=GAME.value):
 		if game==Games.SFS.value:
 			self.game_name = "Simple Space Fortress V2"
 		elif game==Games.SF.value:
@@ -35,7 +35,7 @@ class SFEnv(gym.Env):
 			print("Invalid game name")
 			sys.exit(0)
 
-		self.mode = RenderMode.RGB_ARRAY
+		self.mode = RenderMode.RGB_ARRAY.value 
 		self.game = game
 		self.screen_height = 448
 		self.screen_width = 448
@@ -61,19 +61,10 @@ class SFEnv(gym.Env):
 		self.n_bytes = ((int(self.screen_height/self.scale)) * (int(self.screen_width/self.scale)))
 		# ... which happens to be equal to the amount of pixels in the image
 		# self.observation_space =
-	
-	# recieve settings from run.py
-	def giveSettings(self, settings):
-		self.settings = settings
 		
 	@property
 	def _n_actions(self):
 		return len(self._action_set)
-
-#	def _seed(self, seed=None):
-#		self.np_random, seed = seeding.np_random(seed)
-#		return [seed]
-
 
 	def best_action(self):
 		return self.best()
@@ -100,25 +91,23 @@ class SFEnv(gym.Env):
 		ob = np.ctypeslib.as_array(self.update_screen().contents)
 		return ob, reward, done, {}
 
-
-	def _render(self, mode=Settings.DEFAULT_RENDER_MODE, close=False):
+	# maybe or RENDER_MODE == RenderMode.MINIMAL.value: not necessary
+	def _render(self, mode=RENDER_MODE, close=False):
 		new_frame = self.screen().contents
 		img = np.ctypeslib.as_array(new_frame)
 		render_delay = None
-		if self.settings.render_mode == RenderMode.MINIMAL.value:
+		if RENDER_MODE == RenderMode.MINIMAL or RENDER_MODE == RenderMode.MINIMAL.value:
 			img = np.reshape(img, (int(self.screen_height/self.scale), int(self.screen_width/self.scale)))
-			#img = cv2.resize(img, (84, 84), interpolation=cv2.INTER_AREA) # Note the resize
-		elif self.settings.render_mode == RenderMode.HUMAN.value:
+		elif RENDER_MODE == RenderMode.HUMAN or RENDER_MODE == RenderMode.HUMAN.value:
 			new_frame = self.pretty_screen().contents
 			img = np.ctypeslib.as_array(new_frame)
 			img = np.reshape(img, (self.screen_height, self.screen_width, 2))
 			img = cv2.cvtColor(img, cv2.COLOR_BGR5652RGB)
 			img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
-		elif self.settings.render_mode == RenderMode.TERMINAL.value:
+		elif RENDER_MODE == RenderMode.TERMINAL or RENDER_MODE == RenderMode.TERMINAL.value:
 			new_frame = self.screen().contents
 			img = np.ctypeslib.as_array(new_frame)
 			img = np.reshape(img, (int(self.screen_height/self.scale), int(self.screen_width/self.scale)))
-#				img = cv2.resize(img, (84, 84), interpolation=cv2.INTER_AREA) # Note the resize
 			array_string = ""
 			# create a pretty string from the array
 			for row in img.tolist():
@@ -136,21 +125,13 @@ class SFEnv(gym.Env):
 			print "ERROR: No valid rendermode specified"
 			exit(0)
 		
-		if self.settings.render_speed == RenderSpeed.FAST_NAME.value:
-			render_delay = RenderSpeed.FAST_VALUE.value
-		elif self.settings.render_speed == RenderSpeed.SLOW_NAME.value:
-			render_delay = RenderSpeed.SLOW_VALUE.value
-		elif self.settings.getDebug() == True:
-			render_delay = 0
-		else:
-			print "Invalid Render Speed"
-			exit(0)
+		render_delay = RENDER_SPEED.value
 		
-		if self.record_path is not None:
+		if self.record_path is not None and RECORD:
 			current_time = str(datetime.datetime.now().time().isoformat()).replace("/", ":")
 			cv2.imwrite(self.record_path + "/sf" + current_time + ".png", img)
 		
-		if not self.settings.render_mode == RenderMode.TERMINAL.value:
+		if not RENDER_MODE == RenderMode.TERMINAL:
 			cv2.imshow(self.game_name, img)
 			
 		cv2.waitKey(render_delay)
@@ -198,11 +179,12 @@ class SFEnv(gym.Env):
 		self.stop_drawing()
 
 
-	def _configure(self, mode=Settings.DEFAULT_RENDER_MODE, debug=False, record_path=None, no_direction=False, lib_suffix="", frame_skip=3, libpath="shared"):
+	def _configure(self, mode=RENDER_MODE, debug=False, record_path=None, no_direction=False, lib_suffix="", frame_skip=3, libpath=LIBRARY_PATH):
 		os = platform
 
 		self.debug = debug
 		self.frame_skip = frame_skip
+		self.mode = mode
 		
 		if self.game == Games.SFS.value:
 			libname = Games.SF.value.lower()
@@ -210,11 +192,11 @@ class SFEnv(gym.Env):
 		elif self.game == Games.AIM.value or self.game == Games.SFC.value or self.game == Games.SF.value:  
 			libname = self.game.lower()
 		
-		if self.settings.render_mode != RenderMode.RGB_ARRAY:
+		if mode != RenderMode.RGB_ARRAY and mode != RenderMode.RGB_ARRAY.value:
 			cv2.namedWindow(self.game_name)
 		
 		libname += LIBRARY_NAME
-		if self.settings.render_mode == RenderMode.HUMAN:
+		if mode == RenderMode.HUMAN or mode == RenderMode.HUMAN.value:
 			libname += "_FULL"
 			
 		libname += ".so"
