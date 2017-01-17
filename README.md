@@ -54,14 +54,27 @@ Connect python to gym
 ```sh
 # add the gym directory to the python path in bashrc
 echo "export PYTHONPATH=$PYTHONPATH:$PWD" >> ~/.bashrc
+sudo source ~/.bashrc
 ```
 Note: please make sure the path doesn't have any spaces
+
+Check if it is installed correctly:
+```sh
+python
+import gym
+```
+This shoul produce a warning like this. Any other warning means there is something wrong.
+```sh
+[2017-01-17 09:44:38,848] Site environment registry incorrect: Scoreboard did not register all envs: set(['AIM-v0', 'SFC-v0', 'SFS-v0', 'Acrobot-v0', 'SF-v0']) Scoreboard registered non-existent or deprecated envs: set(['Acrobot-v1', 'CartPole-v1'])
+```
+Exit the python environment using CTRL+Z
 ### Cairo
 Cairo is a 2D graphics library with support for multiple output devices. Currently supported output targets include the X Window System (via both Xlib and XCB), Quartz, Win32, image buffers, PostScript, PDF, and SVG file output. Experimental backends include OpenGL, BeOS, OS/2, and DirectFB. The game uses this engine to render scenes. We can get is very easily with aptitude package manager:
+
 ```sh
 sudo apt-get install libcairo2-dev
 ```
-If you run into any problems installing, please visit [this](https://www.cairographics.org/download/) page
+If you run into any problems installing, please visit [this page](https://www.cairographics.org/download/)
 ### Shared Libraries
 Go to the Game folder
 The learning environment needs shared libraries, which can be built from the sourcecode of the SpaceFortress game. In the folder 'game' are multiple subfolders which are subtasks of the original game.
@@ -98,25 +111,9 @@ sudo apt-get pkg-config
 ```
 
 
-## Run
-
-### 
-The trained network can be tested using the gym library. The main script is located in gym/envs/space_fortress
-and is named run.py. Run.py can be used in the following way.
+## Run (TODO)
 
 ```sh
-usage: run.py [-h] [-m {human,minimal,terminal,rgb_array}] [-s {slow,fast}]
-              {SFS,SF,SFC,AIM}
-
-optional arguments:
-  -h, --help            show this help message and exit
-
-Game:
-  {SFS,SF,SFC,AIM}      Specify which game you want to run
-
-Rendering:
-  -m {human,minimal,terminal,rgb_array}
-                        Determine the render mode of the game
-  -s {slow,fast}        Determine the render speed of the game
-
+./train.sh SFC-v0 -h --environment gym
+./train.sh SFC-v0 -h --environment gym --backend cpu
 ```
