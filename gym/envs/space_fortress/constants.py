@@ -1,6 +1,12 @@
 from enum import Enum
 import os
 
+class KeyMap(Enum):
+	LEFT=0
+	UP=1
+	RIGHT=2
+	SHOOT=3
+	
 class Games(Enum):
 	SFS="SFS"
 	SF="SF"
@@ -9,7 +15,6 @@ class Games(Enum):
 
 class RenderMode(Enum):
 	HUMAN="human"
-	TERMINAL="terminal"
 	MINIMAL="minimal"
 	RGB_ARRAY="rgb_array"
    
@@ -26,12 +31,10 @@ RENDER_SPEED=RenderSpeed.MEDIUM
 LIBRARY_NAME="_frame_lib"
 LIBRARY_PATH=str(os.path.dirname(os.path.realpath(__file__))) + "/shared"
 GAME_VERSION='v0'
+
+# OVERALL SETTINGS
+DEFAULT_RENDER_MODE=RenderMode.RGB_ARRAY.value
 DEFAULT_MAXSTEPS=250000
 DEFAULT_TIMES=5
 RECORD=False
 STATS=False
-
-
-
-
-print LIBRARY_PATH

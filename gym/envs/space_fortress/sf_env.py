@@ -18,11 +18,15 @@ import sys
 from constants import *
 import time
 
+# SFEnv is a child of the environment template located in gym/core.py
+# This instance handles the space fortress environment
 class SFEnv(gym.Env):
-	# - Class variables
+	# - Class variables, these are needed to communicate with the template in gym/core.py
 	metadata = {'render.modes': ['rgb_array', 'human', 'minimal', 'terminal'], 'configure.required' : True}
 
+	# Initialize the environment 
 	def __init__(self, game=GAME.value):
+		# Specify the game name which will be shown at the top of the game window
 		if game==Games.SFS.value:
 			self.game_name = "Simple Space Fortress V2"
 		elif game==Games.SF.value:
@@ -34,38 +38,39 @@ class SFEnv(gym.Env):
 		else:
 			print("Invalid game name")
 			sys.exit(0)
-
-		self.mode = RenderMode.RGB_ARRAY.value 
+		
+		# The game which will be played, the possible games are
+		# located in the enum Games in constants.py
 		self.game = game
+		# The size of the screen when playing in human mode
 		self.screen_height = 448
 		self.screen_width = 448
-
-		self.scale = 5.3 # The amount of (down) scaling of the screen height and width
-
-		# Space, left, right, up, nothing
-		#		LEFT = 0
-		#		UP = 1
-		#		RIGHT = 2
-		#		SHOOT = 3
-
+		 # The amount of (down) scaling of the screen height and width
+		self.scale = 5.3
+		# It is possible to specify a seed for random number generation
 		self._seed()
+		
 		if game == Games.SFS.value or game == Games.SF.value:
-			self._action_set = {0: 65361, 1 : 65362, 2 : 65363, 3 : 32}
-		if game == Games.AIM.value: 
-			self._action_set = {0 : 32,  1 : 65363, 2 : 65361}
+			# All keys allowed
+			self._action_set = {KeyMap.LEFT.value: 65361, KeyMap.UP.value : 65362, KeyMap.RIGHT.value : 65363, KeyMap.SHOOT.value : 32}
+		if game == Games.AIM.value:
+			# Only rotate left/right and shoot
+			self._action_set = {KeyMap.LEFT.value: 65361, KeyMap.RIGHT.value : 65363, KeyMap.SHOOT.value : 32}
 		if game == Games.SFC.value:
-			self._action_set = {0: 65361, 1 : 65362, 2 : 65363}
-			
+			# Only rotate left/right and forward
+			self._action_set = {KeyMap.LEFT.value: 65361, KeyMap.UP.value : 65362, KeyMap.RIGHT.value : 65363}
 			
 		# The number of bytes to read in from the returned image pointer
+		# which happens to be equal to the amount of pixels in the image
 		self.n_bytes = ((int(self.screen_height/self.scale)) * (int(self.screen_width/self.scale)))
-		# ... which happens to be equal to the amount of pixels in the image
-		# self.observation_space =
+		
 		
 	@property
+	# Returns the amount of actions
 	def _n_actions(self):
 		return len(self._action_set)
-
+	
+	# Returns the best action
 	def best_action(self):
 		return self.best()
 
@@ -91,53 +96,38 @@ class SFEnv(gym.Env):
 		ob = np.ctypeslib.as_array(self.update_screen().contents)
 		return ob, reward, done, {}
 
-	# maybe or RENDER_MODE == RenderMode.MINIMAL.value: not necessary
-	def _render(self, mode=RENDER_MODE, close=False):
-		new_frame = self.screen().contents
-		img = np.ctypeslib.as_array(new_frame)
-		render_delay = None
-		if RENDER_MODE == RenderMode.MINIMAL or RENDER_MODE == RenderMode.MINIMAL.value:
-			img = np.reshape(img, (int(self.screen_height/self.scale), int(self.screen_width/self.scale)))
-		elif RENDER_MODE == RenderMode.HUMAN or RENDER_MODE == RenderMode.HUMAN.value:
-			new_frame = self.pretty_screen().contents
-			img = np.ctypeslib.as_array(new_frame)
-			img = np.reshape(img, (self.screen_height, self.screen_width, 2))
-			img = cv2.cvtColor(img, cv2.COLOR_BGR5652RGB)
-			img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
-		elif RENDER_MODE == RenderMode.TERMINAL or RENDER_MODE == RenderMode.TERMINAL.value:
-			new_frame = self.screen().contents
-			img = np.ctypeslib.as_array(new_frame)
-			img = np.reshape(img, (int(self.screen_height/self.scale), int(self.screen_width/self.scale)))
-			array_string = ""
-			# create a pretty string from the array
-			for row in img.tolist():
-				for p in row:
-					pixel_str = str(p)
-					spaces = " "
-					if len(pixel_str) < 2:
-						spaces += " "
-					array_string += pixel_str + spaces
-				array_string += "\n"
-
-			print(chr(27) + "[2J")
-			render_delay = 300
-		else:
-			print "ERROR: No valid rendermode specified"
-			exit(0)
-		
-		render_delay = RENDER_SPEED.value
-		
-		if self.record_path is not None and RECORD:
-			current_time = str(datetime.datetime.now().time().isoformat()).replace("/", ":")
-			cv2.imwrite(self.record_path + "/sf" + current_time + ".png", img)
-		
-		if not RENDER_MODE == RenderMode.TERMINAL:
-			cv2.imshow(self.game_name, img)
+	# Renders the current state of the game, only for our visualisation purposes
+	# it is not important for the learning algorithm
+	def _render(self, mode=DEFAULT_RENDER_MODE, close=False):
+		if not mode == RenderMode.RGB_ARRAY.value:
+			img = None
+			render_delay = None
+			new_frame=None
 			
-		cv2.waitKey(render_delay)
+			if mode == RenderMode.HUMAN.value:
+				new_frame = self.pretty_screen().contents
+			else:
+				new_frame = self.screen().contents
+			img = np.ctypeslib.as_array(new_frame)
+			
+			if mode == RenderMode.HUMAN.value:
+				img = np.reshape(img, (self.screen_height, self.screen_width, 2))
+				img = cv2.cvtColor(img, cv2.COLOR_BGR5652RGB)
+				img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
+			elif mode == RenderMode.MINIMAL.value:
+				img = np.reshape(img, (int(self.screen_height/self.scale), int(self.screen_width/self.scale)))
+				
+			render_delay = RENDER_SPEED.value
+			
+			if self.record_path is not None and RECORD:
+				current_time = str(datetime.datetime.now().time().isoformat()).replace("/", ":")
+				cv2.imwrite(self.record_path + "/sf" + current_time + ".png", img)
+			
+			cv2.imshow(self.game_name, img)	
+			cv2.waitKey(render_delay)
 		
 
-	# return: (states, observations)
+	
 	def _reset(self):
 		self.reset_sf()
 		# screen = self.screen().contents
@@ -163,14 +153,6 @@ class SFEnv(gym.Env):
 
 		csvfile.close()
 
-
-
-
-#	def exit_handler(self):
-#		print("Writing stats...")
-#		self._close()
-
-
 	def _close(self):
 #		if self.write_stats:
 #			self.write_out_stats()
@@ -178,20 +160,19 @@ class SFEnv(gym.Env):
 #		self.write_out_stats()
 		self.stop_drawing()
 
-
-	def _configure(self, mode=RENDER_MODE, debug=False, record_path=None, no_direction=False, lib_suffix="", frame_skip=3, libpath=LIBRARY_PATH):
-		os = platform
-
+	# Configure the space fortress gym environment
+	def _configure(self, mode=DEFAULT_RENDER_MODE, debug=False, record_path=None, no_direction=False, lib_suffix="", frame_skip=3, libpath=LIBRARY_PATH):
 		self.debug = debug
 		self.frame_skip = frame_skip
 		self.mode = mode
 		
+		# Get the right shared library for the game
 		if self.game == Games.SFS.value:
 			libname = Games.SF.value.lower()
-		
 		elif self.game == Games.AIM.value or self.game == Games.SFC.value or self.game == Games.SF.value:  
 			libname = self.game.lower()
 		
+		# There is no need for a window when in RGB_ARRAY mode
 		if mode != RenderMode.RGB_ARRAY and mode != RenderMode.RGB_ARRAY.value:
 			cv2.namedWindow(self.game_name)
 		
@@ -200,8 +181,8 @@ class SFEnv(gym.Env):
 			libname += "_FULL"
 			
 		libname += ".so"
-		#libpath = str(os.path.realpath(__file__)) + "/shared"
-		#print libpath
+		
+		# Link the environment to the shared libraries
 		self.update = ctypes.CDLL(libpath + '/'+libname).update_frame
 		self.init_game = ctypes.CDLL(libpath +'/'+libname).start_drawing
 		self.act = ctypes.CDLL(libpath +'/'+libname).set_key

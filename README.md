@@ -100,9 +100,12 @@ sudo pip install pynput
 ```
 
 
-## Run (TODO)
+# Usage
 
+### Training
+The network can be trained with the shell script train.sh located in the Simple_DQN folder. This script calls
+the main python script in src along with parameters which specify where to save the weights and results of there
+training. The default location is ``Simple_DQN/runs/**Your Selected Game**/``. A possible training setup could, for instance, be:
 ```sh
-./train.sh SFC-v0 -h --environment gym
-./train.sh SFC-v0 -h --environment gym --backend cpu
+./train.sh SFC-v0 MyFirstTraining
 ```

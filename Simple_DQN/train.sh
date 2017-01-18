@@ -3,10 +3,9 @@
 game_vers=$1
 experiment=$2
 game=${game_vers%-*}
-date="$(date +%s)"
-weights_prefix=runs/$game/${date}_$experiment/weights/${game}_${experiment}
+weights_prefix=runs/$game/$experiment/weights/${game}_${experiment}
 results=runs/$game/${date}_$experiment/${game}_${experiment}.csv
 
-mkdir -p runs/$game/${date}_$experiment/weights
+mkdir -p runs/$game/$experiment/weights
 
-python src/main.py --save_weights_prefix $weights_prefix --csv_file $results $game_vers "${@:3}"
+python src/main.py --display_screen rgb_array --save_weights_prefix $weights_prefix --csv_file $results $game_vers "${@:3}"

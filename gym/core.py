@@ -77,7 +77,7 @@ class Env(object):
     # Override in ALL subclasses
     def _step(self, action): raise NotImplementedError
     def _reset(self): raise NotImplementedError
-    def _render(self, mode='human', close=False):
+    def _render(self, mode='rgb_array', close=False):
         if close:
             return
         raise NotImplementedError
@@ -134,7 +134,7 @@ class Env(object):
         self.monitor._after_reset(observation)
         return observation
 
-    def render(self, mode='human', close=False):
+    def render(self, mode='rgb_array', close=False):
         """Renders the environment.
 
         The set of supported modes varies per environment. (And some
@@ -332,7 +332,7 @@ class Wrapper(Env):
     def _reset(self):
         return self.env.reset()
 
-    def _render(self, mode='human', close=False):
+    def _render(self, mode='rgb_array', close=False):
         return self.env.render(mode, close)
 
     def _close(self):
