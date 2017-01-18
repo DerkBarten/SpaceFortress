@@ -4,7 +4,7 @@ game_vers=$1
 experiment=$2
 game=${game_vers%-*}
 weights_prefix=runs/$game/$experiment/weights/${game}_${experiment}
-results=runs/$game/${date}_$experiment/${game}_${experiment}.csv
+results=runs/$game/$experiment/${game}_${experiment}.csv
 
 mkdir -p runs/$game/$experiment/weights
 

@@ -49,16 +49,15 @@ class SFEnv(gym.Env):
 		self.scale = 5.3
 		# It is possible to specify a seed for random number generation
 		self._seed()
-		
 		if game == Games.SFS.value or game == Games.SF.value:
 			# All keys allowed
-			self._action_set = {KeyMap.LEFT.value: 65361, KeyMap.UP.value : 65362, KeyMap.RIGHT.value : 65363, KeyMap.SHOOT.value : 32}
+			self._action_set = {0 : KeyMap.LEFT.value, 1 : KeyMap.UP.value, 2 : KeyMap.RIGHT.value, 3 : KeyMap.SHOOT.value}
 		if game == Games.AIM.value:
 			# Only rotate left/right and shoot
-			self._action_set = {KeyMap.LEFT.value: 65361, KeyMap.RIGHT.value : 65363, KeyMap.SHOOT.value : 32}
+			self._action_set = {0 : KeyMap.SHOOT.value, 1 : KeyMap.LEFT.value, 2 : KeyMap.RIGHT.value}
 		if game == Games.SFC.value:
 			# Only rotate left/right and forward
-			self._action_set = {KeyMap.LEFT.value: 65361, KeyMap.UP.value : 65362, KeyMap.RIGHT.value : 65363}
+			self._action_set = {0 : KeyMap.LEFT.value, 1 : KeyMap.UP.value, 2: KeyMap.RIGHT.value}
 			
 		# The number of bytes to read in from the returned image pointer
 		# which happens to be equal to the amount of pixels in the image

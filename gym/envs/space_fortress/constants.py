@@ -2,10 +2,10 @@ from enum import Enum
 import os
 
 class KeyMap(Enum):
-	LEFT=0
-	UP=1
-	RIGHT=2
-	SHOOT=3
+	LEFT=65361
+	UP=65362
+	RIGHT=65363
+	SHOOT=32
 	
 class Games(Enum):
 	SFS="SFS"
@@ -38,3 +38,6 @@ DEFAULT_MAXSTEPS=250000
 DEFAULT_TIMES=5
 RECORD=False
 STATS=False
+
+
+print KeyMap.LEFT.value
