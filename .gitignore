@@ -1,5 +1,11 @@
 .*kate*
 Envs
+<<<<<<< HEAD
 Simple_DQN/*
 !Simple_DQN/src
 *.pyc
+=======
+Game/
+gym/**/*.pyc
+
+>>>>>>> 37f19114b873a5ef9640dcf2210e06a3295d0363

@@ -8,6 +8,9 @@ from time import sleep
 from pynput.keyboard import Key, Listener
 from constants import *
 
+# Specify the game the gym environment will play.
+# All games are registered in gym/envs/__init__.py
+# All possible versions of space fortress are located in constants.py
 game_name = GAME.value + "-" + GAME_VERSION
 env = gym.make(game_name)
 

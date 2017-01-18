@@ -52,7 +52,7 @@ sudo pip install -r gym/requirements.txt
 ```
 Connect python to gym
 ```sh
-# add the gym directory to the python path
+# add the gym directory to the python path in bashrc
 echo "export PYTHONPATH=$PYTHONPATH:$PWD" >> ~/.bashrc
 sudo source ~/.bashrc
 ```
@@ -82,6 +82,11 @@ The learning environment needs shared libraries, which can be built from the sou
 * AIM is the stripped version of the game which focusses on the aiming task
 * SFC is the stripped version of the game which focusses on the control task
 
+Make sure you have the clang compiler installed
+```sh
+sudo apt-get install clang
+```
+
 The Makefile has multple build options,
 ```sh
 cd Game
@@ -97,6 +102,12 @@ A list with dependencies we encountered during installation/runtime ourselves.
 ```sh
 sudo apt-get install python-xlib
 sudo pip install pynput
+sudo pip install pathlib
+sudo pip install opencv-python
+sudo apt-get install gtk2.0
+sudo apt-get install libgtk2.0-dev
+sudo apt-get install libgtk-3-dev
+sudo apt-get pkg-config
 ```
 
 
