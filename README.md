@@ -113,10 +113,19 @@ sudo apt-get pkg-config
 
 # Usage
 
-### Training
+### Start Training
 The network can be trained with the shell script train.sh located in the Simple_DQN folder. This script calls
-the main python script in src along with parameters which specify where to save the weights and results of there
-training. The default location is ``Simple_DQN/runs/**Your Selected Game**/``. A possible training setup could, for instance, be:
+the main python script in src along with parameters which specify where to save the weights and results. For instance, the command below will save the training data in ``runs/SFC/MyFirstTraining``.
 ```sh
 ./train.sh SFC-v0 MyFirstTraining
 ```
+Instead of SFC, it is also possible to train AIM, SFS and SF.
+### Resume Training
+With the resume script, a halted training process can be resumed.
+```sh
+./resume.sh SFC-v0 MyFirstTraining
+```
+The learning algorithm uses 'epochs', which can be seen as checkpoints. The epochs are saved as .prm files in the weights folder, in the above example, the path to the weights would be ``runs/SFC/MyFirstTraining/weights``. The script will automatically find the most recent checkpoint and load the data. The results and statistics of the training are stored in .csv files. Each time the training is resumed, a new .csv file is created witch a session ID which makes it easier to identify training sessions.
+
+Note: Please make sure the network trained until one epoch before trying to resume. The script will otherwise not work, because no checkpoint was saved.
+

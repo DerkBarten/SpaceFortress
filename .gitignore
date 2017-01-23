@@ -1,4 +1,4 @@
 .*kate*
 *.pyc
 *.prm
-
+!Simple_DQN/snapshots/*.prm

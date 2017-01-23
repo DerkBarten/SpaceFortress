@@ -13,7 +13,13 @@ weights_name=`ls -v $weights_dir | tail -n 1`
 
 # the last epoch we managed to reach
 epoch=`echo $weights_name | cut -d . -f 1 | cut -d _ -f 3`
- 
+
+# if there is not yet an epoch reached, exit
+if [ -z "$epoch" ]; then
+	echo "ERROR: No weights file not found."
+	echo "Check if the .prm file in the weights directory has the following name: *GAME*_*EXPERIMENT*_*EPOCH*.prm"
+	exit
+fi
 # the location of the weights were using
 get_weights=$weights_dir/$weights_name
 
@@ -21,7 +27,7 @@ get_weights=$weights_dir/$weights_name
 store_weights=$weights_dir/${game}_${experiment}
 
 # create a new csv file because simple dqn will overwrite the last results if we give it the same output file
-session=`ls runs/AIM/First/*.csv | wc -l`
+session=`ls runs/${game}/${experiment}/*.csv | wc -l`
 
 # place where the results will be stored as csv
 results=runs/$game/$experiment/${game}_${experiment}_${session}.csv
