@@ -3,6 +3,7 @@ import csv
 import time
 import logging
 import numpy as np
+import os.path
 logger = logging.getLogger(__name__)
 
 class Statistics:
@@ -17,27 +18,31 @@ class Statistics:
 
     self.csv_name = args.csv_file
     if self.csv_name:
+      append=False
+      if os.path.isfile(self.csv_name):
+	append=True
       logger.info("Results are written to %s" % args.csv_file)
       self.csv_file = open(self.csv_name, "wb")
       self.csv_writer = csv.writer(self.csv_file)
-      self.csv_writer.writerow((
-          "epoch",
-          "phase",
-          "steps",
-          "nr_games",
-          "average_reward",
-          "min_game_reward",
-          "max_game_reward", 
-          "last_exploration_rate",
-          "total_train_steps",
-          "replay_memory_count",
-          "meanq",
-          "meancost",
-          "weight_updates",
-          "total_time",
-          "epoch_time",
-          "steps_per_second"
-        ))
+      if append == False:
+	self.csv_writer.writerow((
+		"epoch",
+		"phase",
+		"steps",
+		"nr_games",
+		"average_reward",
+		"min_game_reward",
+		"max_game_reward", 
+		"last_exploration_rate",
+		"total_train_steps",
+		"replay_memory_count",
+		"meanq",
+		"meancost",
+		"weight_updates",
+		"total_time",
+		"epoch_time",
+		"steps_per_second"
+		))
       self.csv_file.flush()
 
     self.start_time = time.clock()

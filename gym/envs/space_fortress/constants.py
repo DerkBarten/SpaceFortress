@@ -25,9 +25,9 @@ class RenderSpeed(Enum):
 	FAST=42
 	
 # GAME SETTINGS FOR RUN.PY
-GAME=Games.SFS
+GAME=Games.SFC
 RENDER_MODE=RenderMode.HUMAN
-RENDER_SPEED=RenderSpeed.MEDIUM
+RENDER_SPEED=RenderSpeed.DEBUG
 LIBRARY_NAME="_frame_lib"
 LIBRARY_PATH=str(os.path.dirname(os.path.realpath(__file__))) + "/shared"
 GAME_VERSION='v0'

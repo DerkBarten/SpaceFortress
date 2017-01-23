@@ -1,5 +1,4 @@
 .*kate*
-Envs
-Simple_DQN/*
-!Simple_DQN/src
 *.pyc
+*.prm
+
