@@ -1,6 +1,8 @@
 from enum import Enum
 import os
 
+# Key bindings: http://infohost.nmt.edu/tcc/help/pubs/tkinter/web/key-names.html
+# Look at '.keysym_num'
 class KeyMap(Enum):
 	LEFT=65361
 	UP=65362
