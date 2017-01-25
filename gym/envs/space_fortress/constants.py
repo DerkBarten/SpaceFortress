@@ -21,15 +21,16 @@ class RenderMode(Enum):
 	RGB_ARRAY="rgb_array"
    
 class RenderSpeed(Enum):
+	# actually more of a render delay than speed
 	DEBUG=0
-	SLOW=8
+	SLOW=42
 	MEDIUM=20
-	FAST=42
+	FAST=8
 	
 # GAME SETTINGS FOR RUN.PY
 GAME=Games.SFC
 RENDER_MODE=RenderMode.HUMAN
-RENDER_SPEED=RenderSpeed.DEBUG
+RENDER_SPEED=RenderSpeed.FAST
 LIBRARY_NAME="_frame_lib"
 LIBRARY_PATH=str(os.path.dirname(os.path.realpath(__file__))) + "/shared"
 GAME_VERSION='v0'
