@@ -46,4 +46,19 @@ Try to blow up the fort while navigating and dodging its attacks.
 """,
 )
 
+add_task(
+    id='SFS-v0',
+    group='space_fortress',
+)
+
+add_task(
+    id='SFC-v0',
+    group='space_fortress',
+)
+
+add_task(
+    id='AIM-v0',
+    group='space_fortress',
+)
+
 registry.finalize()
