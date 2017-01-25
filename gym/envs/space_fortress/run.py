@@ -11,8 +11,7 @@ from constants import *
 # Specify the game the gym environment will play.
 # All games are registered in gym/envs/__init__.py
 # All possible versions of space fortress are located in constants.py
-game_name = GAME.value + "-" + GAME_VERSION
-env = gym.make(game_name)
+env = gym.make(GAME.value)
 
 # Configure enviroment
 env.configure(mode=RENDER_MODE, record_path=None, no_direction=False, frame_skip=1)
