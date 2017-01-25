@@ -54,7 +54,7 @@ Connect python to gym
 ```sh
 # add the gym directory to the python path in bashrc
 echo "export PYTHONPATH=$PYTHONPATH:$PWD" >> ~/.bashrc
-sudo source ~/.bashrc
+source ~/.bashrc
 ```
 Note: please make sure the path doesn't have any spaces
 
@@ -67,7 +67,7 @@ This shoul produce a warning like this. Any other warning means there is somethi
 ```sh
 [2017-01-17 09:44:38,848] Site environment registry incorrect: Scoreboard did not register all envs: set(['AIM-v0', 'SFC-v0', 'SFS-v0', 'Acrobot-v0', 'SF-v0']) Scoreboard registered non-existent or deprecated envs: set(['Acrobot-v1', 'CartPole-v1'])
 ```
-Exit the python environment using CTRL+Z
+Exit the python environment using the ' exit() ' command.
 ### Cairo
 Cairo is a 2D graphics library with support for multiple output devices. Currently supported output targets include the X Window System (via both Xlib and XCB), Quartz, Win32, image buffers, PostScript, PDF, and SVG file output. Experimental backends include OpenGL, BeOS, OS/2, and DirectFB. The game uses this engine to render scenes. We can get is very easily with aptitude package manager:
 
@@ -107,8 +107,31 @@ sudo pip install opencv-python
 sudo apt-get install gtk2.0
 sudo apt-get install libgtk2.0-dev
 sudo apt-get install libgtk-3-dev
-sudo apt-get pkg-config
+sudo apt-get install pkg-config
 ```
+
+### Testing the environment
+Go to the directory with run.py to test if the environment is working. Enter the command:
+```sh
+cd space_fortress
+```
+Then enter the command:
+```sh
+python run.py
+```
+If a new window appears and the game is running, everything has been installed correctly.
+Go to the ' Usage ' section and skip the next section.
+
+If an error occurs that says:
+```sh
+"OpenCV Error: Unspecified error (The function is not implemented. Rebuild the library with Windows, GTK+ 2.x or Carbon support. If you are on Ubuntu or Debian, install libgtk2.0-dev and pkg-config, then re-run cmake or configure script) in cvNamedWindow, file /io/opencv/modules/highui/src/window.cpp, line 565" 
+```
+
+Then read and follow the next section.
+
+### Fixing OpenCV
+
+To be written.
 
 
 # Usage
