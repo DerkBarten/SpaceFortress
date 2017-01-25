@@ -113,6 +113,7 @@ sudo apt-get install pkg-config
 ### Testing the environment
 Go to the directory with run.py to test if the environment is working. Enter the command:
 ```sh
+cd ..
 cd space_fortress
 ```
 Then enter the command:
