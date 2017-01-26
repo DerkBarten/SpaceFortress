@@ -27,7 +27,7 @@ class ScriptsSFC(Enum):
         # Script 1: Move left 2 times then right
         SCRIPT1=[KeyMap.LEFT.value,KeyMap.LEFT.value,KeyMap.RIGHT.value]
         # Script 2: Move right 2 times then left
-        SCRIPT2=[KeyMap.RIGHT.value,KeyMap.value.RIGHT.value,KeyMap.LEFT.value]
+        SCRIPT2=[KeyMap.RIGHT.value,KeyMap.RIGHT.value,KeyMap.LEFT.value]
         # Script 3: Move right 3 times
         SCRIPT3=[KeyMap.RIGHT.value,KeyMap.RIGHT.value,KeyMap.RIGHT.value]
         # Script 4: Move left then forward twice
@@ -56,7 +56,7 @@ class RenderSpeed(Enum):
 # GAME SETTINGS FOR RUN.PY
 GAME=Games.SFC
 RENDER_MODE=RenderMode.HUMAN
-RENDER_SPEED=RenderSpeed.FAST
+RENDER_SPEED=RenderSpeed.DEBUG
 LIBRARY_NAME="_frame_lib"
 LIBRARY_PATH=str(os.path.dirname(os.path.realpath(__file__))) + "/shared"
 GAME_VERSION='v0'
