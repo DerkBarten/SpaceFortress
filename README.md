@@ -63,10 +63,9 @@ Check if it is installed correctly:
 python
 import gym
 ```
-This shoul produce a warning like this. Any other warning means there is something wrong.
-```sh
-[2017-01-17 09:44:38,848] Site environment registry incorrect: Scoreboard did not register all envs: set(['AIM-v0', 'SFC-v0', 'SFS-v0', 'Acrobot-v0', 'SF-v0']) Scoreboard registered non-existent or deprecated envs: set(['Acrobot-v1', 'CartPole-v1'])
-```
+
+If a new line appears without anything of importance that happened, gym is installed correctly.
+
 Exit the python environment using the ' exit() ' command.
 ### Cairo
 Cairo is a 2D graphics library with support for multiple output devices. Currently supported output targets include the X Window System (via both Xlib and XCB), Quartz, Win32, image buffers, PostScript, PDF, and SVG file output. Experimental backends include OpenGL, BeOS, OS/2, and DirectFB. The game uses this engine to render scenes. We can get is very easily with aptitude package manager:
