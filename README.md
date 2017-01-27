@@ -30,6 +30,7 @@ Install prerequisites:
 ```sh
 sudo apt-get install libhdf5-dev libyaml-dev libopencv-dev pkg-config
 sudo apt-get install python python-dev python-pip python-virtualenv
+sudo apt-get install python-opencv
 ```
 
 Check out and compile the code:
@@ -86,15 +87,19 @@ Make sure you have the clang compiler installed
 sudo apt-get install clang
 ```
 
-The Makefile has multple build options,
+The Makefile has multple build options:
+-SF
+-AIM 
+-SFC
+-all
+-clean
+
+For the installation, the only commands of importance is the make all. Follow the next steps:
 ```sh
 cd Game
-sudo make SF
-sudo make AIM
-sudo make SFC
 sudo make all    # makes all versions of the game
-sudo make clean  # removes all built files
 ```
+
 
 ### Other dependencies
 A list with dependencies we encountered during installation/runtime ourselves.
@@ -102,7 +107,6 @@ A list with dependencies we encountered during installation/runtime ourselves.
 sudo apt-get install python-xlib
 sudo pip install pynput
 sudo pip install pathlib
-sudo pip install opencv-python
 sudo pip install matplotlib
 sudo apt-get install gtk2.0
 sudo apt-get install libgtk2.0-dev
@@ -128,30 +132,7 @@ If an error occurs that says:
 "OpenCV Error: Unspecified error (The function is not implemented. Rebuild the library with Windows, GTK+ 2.x or Carbon support. If you are on Ubuntu or Debian, install libgtk2.0-dev and pkg-config, then re-run cmake or configure script) in cvNamedWindow, file /io/opencv/modules/highui/src/window.cpp, line 565" 
 ```
 
-Then read and follow the next section.
-
-### Fixing OpenCV
-
-Open a new terminal and execute the commands:
-```sh
-python -v
-import cv2
-```
-
-A lot of useless text will appear in the terminal. All of this can be skipped, except for the last line.
-The last line should look like this:
-
-**import cv2 # dynamically loaded from /usr/lib/python2.7/dist-packages/cv2.x86_64-linux-gnu.so**
-
-If cv2 is imported from another location, browse to that location and delete the directory and/or files.
-
-Keep repeating the above steps until cv2 is imported from the file cv2.x86_64-linux-gnu.so, as shown above.
-
-Afterwards, exit the python environment rerun the following command:
-```sh
-python run.py
-```
-If everything was done correctly, the game should be working by now.
+Then read the bugfixing section.
 
 # Usage
 
@@ -171,3 +152,32 @@ The learning algorithm uses 'epochs', which can be seen as checkpoints. The epoc
 
 Note: Please make sure the network trained until one epoch before trying to resume. The script will otherwise not work, because no checkpoint was saved.
 
+# Bug fixes
+
+### Fixing OpenCV
+
+Retry to install the correct openCV dependencies
+```sh
+sudo apt-get install libopencv-dev python-opencv
+``` 
+
+Open a new terminal and execute the commands:
+```sh
+python
+import cv2
+cv2.__file__
+```
+
+The output line should look like this:
+
+'/usr/lib/python2.7/dist-packages/cv2.x86_64-linux-gnu.so'
+
+If cv2 is imported from another location, browse to that location and delete the directory and/or files.
+
+Keep repeating the above steps until cv2 is imported from the file cv2.x86_64-linux-gnu.so, as shown above.
+
+Afterwards, exit the python environment rerun the following command:
+```sh
+python run.py
+```
+If everything was done correctly, the game should be working by now.
