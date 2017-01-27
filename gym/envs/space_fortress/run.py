@@ -5,7 +5,7 @@ import numpy as np
 from random import random
 import cv2 # remove at one point
 from time import sleep
-from pynput.keyboard import Key, Listener
+from pynput.keyboard import KeyCode, Key, Listener
 from constants import *
 
 # Specify the game the gym environment will play.
@@ -15,22 +15,32 @@ game_name = GAME.value + "-" + GAME_VERSION
 env = gym.make(game_name)
 
 # Configure enviroment
-env.configure(mode=RENDER_MODE, record_path=None, no_direction=False, frame_skip=1)
 
-#  Keymap:
-#  LEFT = 0
-#  UP = 1
-#  RIGHT = 2
-#  SHOOT = 3
+# Get the length of the scripts
+if GAME.value == "SFC":
+    script_length = len(ScriptsSFC.SCRIPT1.value) 
+elif GAME.value == "SF" or GAME.value == "SFS":
+    script_length = len(ScriptsSF.SCRIPT1.value)
+elif GAME.value == AIM:
+    script_length = 1 # to be implemented
+    
+env.configure(mode=RENDER_MODE, record_path=None, no_direction=False, frame_skip=script_length)
+
+
 def on_press(key):
-    # Global var to use outside function
-    global current_key
-    # Keymap input to action space
-    if GAME.value == "SFC":
-        key_to_action = {Key.left : 0, Key.up : 1, Key.right : 2} 
-    else:
-        key_to_action = {Key.left : 0, Key.up : 1, Key.right : 2, Key.down : 3, Key.space : 3} 
-
+    key = str(key).replace("'", "")  # Get keyboard input
+    global current_key               # Global var to use outside function
+    
+    # Keymap input to action space using dictionary
+    if GAME.value == "SF" or GAME.value == "SFS":
+        key_to_action = {"uz" : 0, "ux" : 1, "uc" : 2, "uv" : 3, "ub" : 4} 
+        
+    elif GAME.value == "SFC":
+        key_to_action = {"uz" : 0, "ux" : 1, "uc" : 2, "uv" : 3, "ub" : 4, "un" : 5, "um" : 6} 
+        
+    elif GAME.value == "AIM":
+        key_to_action = {"uz" : 0, "ux" : 1, "uc" : 2} 
+        
     if key in key_to_action.keys():
         current_key = key_to_action[key]
 
@@ -39,7 +49,7 @@ def on_release(key):
     pass
 
 # Current key has to be initialized before first input of keyboard
-current_key = 1
+current_key = 0
 
 def play(times=DEFAULT_TIMES, max_steps=DEFAULT_MAXSTEPS):
     # Start listening to the keyboard

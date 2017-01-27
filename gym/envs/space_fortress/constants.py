@@ -23,17 +23,20 @@ class ScriptsSF(Enum):
         SCRIPT5=[KeyMap.RIGHT.value,KeyMap.UP.value,KeyMap.UP.value]
         
 class ScriptsSFC(Enum):
-        # Sample scripts for now
-        # Script 1: Move left 2 times then right
-        SCRIPT1=[KeyMap.LEFT.value,KeyMap.LEFT.value,KeyMap.RIGHT.value]
-        # Script 2: Move right 2 times then left
-        SCRIPT2=[KeyMap.RIGHT.value,KeyMap.RIGHT.value,KeyMap.LEFT.value]
+        # Script 1: Move left 2 times then forward
+        SCRIPT1=[KeyMap.LEFT.value,KeyMap.LEFT.value,KeyMap.UP.value]
+        # Script 2: Move right 2 times then forward
+        SCRIPT2=[KeyMap.RIGHT.value,KeyMap.RIGHT.value,KeyMap.UP.value]
         # Script 3: Move right 3 times
         SCRIPT3=[KeyMap.RIGHT.value,KeyMap.RIGHT.value,KeyMap.RIGHT.value]
-        # Script 4: Move left then forward twice
-        SCRIPT4=[KeyMap.LEFT.value,KeyMap.UP.value,KeyMap.UP.value]
-        # Script 5: Move Right then forward twice
-        SCRIPT5=[KeyMap.RIGHT.value,KeyMap.UP.value,KeyMap.UP.value]
+        # Script 4: Move left 3 times
+        SCRIPT4=[KeyMap.LEFT.value,KeyMap.LEFT.value,KeyMap.LEFT.value]
+        # Script 5: Move forward then left twice
+        SCRIPT5=[KeyMap.UP.value,KeyMap.LEFT.value,KeyMap.LEFT.value]
+        # Script 6: Move forward then right twice
+        SCRIPT6=[KeyMap.RIGHT.value,KeyMap.RIGHT.value,KeyMap.RIGHT.value]
+        # Script 7: Move forward thrice
+        SCRIPT7=[KeyMap.UP.value,KeyMap.UP.value,KeyMap.UP.value]
 	
 class Games(Enum):
 	SFS="SFS"
@@ -54,7 +57,7 @@ class RenderSpeed(Enum):
 	FAST=8
 	
 # GAME SETTINGS FOR RUN.PY
-GAME=Games.SFC
+GAME=Games.SF
 RENDER_MODE=RenderMode.HUMAN
 RENDER_SPEED=RenderSpeed.DEBUG
 LIBRARY_NAME="_frame_lib"
@@ -63,7 +66,7 @@ GAME_VERSION='v0'
 
 # OVERALL SETTINGS
 DEFAULT_RENDER_MODE=RenderMode.RGB_ARRAY.value
-DEFAULT_MAXSTEPS=250000
-DEFAULT_TIMES=5
+DEFAULT_MAXSTEPS=2500000
+DEFAULT_TIMES=100
 RECORD=False
 STATS=False
