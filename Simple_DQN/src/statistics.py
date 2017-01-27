@@ -22,7 +22,7 @@ class Statistics:
       if os.path.isfile(self.csv_name):
 	append=True
       logger.info("Results are written to %s" % args.csv_file)
-      self.csv_file = open(self.csv_name, "wb")
+      self.csv_file = open(self.csv_name, "a")
       self.csv_writer = csv.writer(self.csv_file)
       if append == False:
 	self.csv_writer.writerow((
@@ -80,7 +80,10 @@ class Statistics:
     total_time = current_time - self.start_time
     epoch_time = current_time - self.epoch_start_time
     steps_per_second = self.num_steps / epoch_time
-
+    
+    if phase == "random":
+	return
+    
     if self.num_games == 0:
       self.num_games = 1
       self.average_reward = self.game_rewards

@@ -24,41 +24,16 @@ web_base = os.environ.get('OPENAI_GYM_WEB_BASE', 'https://gym.openai.com')
 # groups
 
 add_group(
-    id='classic_control',
-    name='Classic control',
-    description='Classic control problems from the RL literature.'
-)
-
-add_group(
     id='space_fortress',
     name='Space Fortress',
     description="Groups which contains all SF versions."
 )
 
 # Space Fortress
-
-add_task(
-    id='SF-v0',
-    group='space_fortress',
-    summary='Simulation game for NLR',
-    description="""
-Try to blow up the fort while navigating and dodging its attacks.
-""",
-)
-
-add_task(
-    id='SFS-v0',
-    group='space_fortress',
-)
-
-add_task(
-    id='SFC-v0',
-    group='space_fortress',
-)
-
-add_task(
-    id='AIM-v0',
-    group='space_fortress',
-)
-
+for game in ['AIM', 'SF', 'SFS', 'SFC']:
+	add_task(
+		id='{}-v0'.format(game),
+		group='space_fortress'
+	)
+	
 registry.finalize()

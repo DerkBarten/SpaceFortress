@@ -103,6 +103,7 @@ sudo apt-get install python-xlib
 sudo pip install pynput
 sudo pip install pathlib
 sudo pip install opencv-python
+sudo pip install matplotlib
 sudo apt-get install gtk2.0
 sudo apt-get install libgtk2.0-dev
 sudo apt-get install libgtk-3-dev

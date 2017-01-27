@@ -1,9 +1,9 @@
 #!/usr/bin/env bash
 
-game_vers="$1"
+game="$1"
 experiment="$2"
-game="${game_vers%-*}"
-
+# standard version
+version=-v0
 
 # the directory where the weights are stored
 weights_dir=runs/$game/$experiment/weights
@@ -26,16 +26,14 @@ get_weights=$weights_dir/$weights_name
 # the prefix of the name where the weights will be stored
 store_weights=$weights_dir/${game}_${experiment}
 
-# create a new csv file because simple dqn will overwrite the last results if we give it the same output file
-session=`ls runs/${game}/${experiment}/*.csv | wc -l`
-
 # place where the results will be stored as csv
-results=runs/$game/$experiment/${game}_${experiment}_${session}.csv
+results=runs/$game/$experiment/${game}_${experiment}.csv
 
 # combine all arguments in the python call
-python src/main.py 	--environment gym \
+python src/main.py 	${game}${version}\
+			--environment gym \
 			--display_screen rgb_array \
 			--save_weights_prefix ${store_weights}\
-			--csv_file ${results} ${game_vers}\
+			--csv_file ${results}\
 			--load_weights ${get_weights}\
 			--start_epoch ${epoch}
