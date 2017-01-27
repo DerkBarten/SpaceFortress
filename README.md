@@ -88,10 +88,15 @@ sudo apt-get install clang
 ```
 
 The Makefile has multple build options:
+
 -SF
+
 -AIM 
+
 -SFC
+
 -all
+
 -clean
 
 For the installation, the only commands of importance is the make all. Follow the next steps:
@@ -125,6 +130,7 @@ Then enter the command:
 python run.py
 ```
 If a new window appears and the game is running, everything has been installed correctly.
+
 Go to the ' Usage ' section and skip the next section.
 
 If an error occurs that says:
@@ -135,6 +141,16 @@ If an error occurs that says:
 Then read the bugfixing section.
 
 # Usage
+### Running the game
+
+Inside the space_fortress map, run:
+```sh
+python run.py
+```
+
+Then execute the scripts with the keys: "z, x, c, v, b, n, m"
+
+In the constants file all settings for running the game can be found and tweaked.
 
 ### Start Training
 The network can be trained with the shell script train.sh located in the Simple_DQN folder. This script calls
