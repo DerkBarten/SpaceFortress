@@ -1,30 +1,31 @@
+# About
+TODO: who are we? what are we doing?
 # Setup
-Our SpaceFortress Q-learning implementation exists mainly of the following parts
+This project mainly uses the following preexisting software:
 * [OpenAI Gym](https://gym.openai.com/)
 * [Simple DQN](https://github.com/tambetm/simple_dqn)
-* The SpaceFortress Game
+* SpaceFortress
 
 ### OpenAI Gym
-A toolkit for developing and comparing reinforcement learning algorithms. It supports teaching agents everything from walking to playing games like Pong or Go.
-Gym will basically create an environment in which the learning algorithm can learn the game.
+A toolkit for developing and comparing reinforcement learning algorithms. It supports teaching agents everything from walking to playing games like Pong or Go.Gym will create an environment in which the learning algorithm wiil learn the game.
 
 ### Simple DQN
-Deep Q-learning agent for replicating DeepMind's results in paper "Human-level control through deep reinforcement learning". It is designed to be simple, fast and easy to extend. This is the workhorse of our project.
+Deep Q-learning agent for replicating DeepMind's results in paper "Human-level control through deep reinforcement learning". It is designed to be simple, fast and easy to extend. This algorithm will be used.to learn the game.
 
 ### Space Fortress
-An old DOS game, but pretty complex nevertheless. We will train a network to play this game.
+An old DOS game that will be learned by the network.
 
 # Download
-Download the repository. Make sure you execute the command in which you want to install the repository.
+Download the repository. Make sure you execute the command in which you want to install the repository. Git creates a new folder called SpaceFortress where the repository will be placed.
 ```sh
 sudo git clone https://github.com/Noswis/SpaceFortress.git 
 cd SpaceFortress
 ```
 
 # Installation
-During the installation process, please make sure you are in the SpaceFortress folder.
+During the installation process, please make sure the terminal resides in the SpaceFortress folder.
 ### Neon
-[Neon](https://github.com/NervanaSystems/neon) is Nervana's Python based Deep Learning framework and achieves the fastest performance on modern deep neural networks such as AlexNet, VGG and GoogLeNet. Designed for ease-of-use and extensibility. The Simple DQN learning algorithm was built on neon, so we need to install this.
+[Neon](https://github.com/NervanaSystems/neon) is Nervana's Python based Deep Learning framework and achieves the fastest performance on modern deep neural networks such as AlexNet, VGG and GoogLeNet. Designed for ease-of-use and extensibility. Simple DQN  was built on neon, so we need to install this.Neon free software which can be cloned from their github page.
 
 Install prerequisites:
 ```sh
@@ -57,7 +58,7 @@ Connect python to gym
 echo "export PYTHONPATH=$PYTHONPATH:$PWD" >> ~/.bashrc
 source ~/.bashrc
 ```
-Note: please make sure the path doesn't have any spaces
+Note: please make sure the path to the SpaceFortress folder does not have any spaces
 
 Check if it is installed correctly:
 ```sh
@@ -87,19 +88,14 @@ Make sure you have the clang compiler installed
 sudo apt-get install clang
 ```
 
-The Makefile has multple build options:
+The Makefile has several build options, as listed below:
+* SF
+* AIM 
+* SFC
+* all
+* clean
 
--SF
-
--AIM 
-
--SFC
-
--all
-
--clean
-
-For the installation, the only commands of importance is the make all. Follow the next steps:
+For the installation, the only command of importance is `make all`. Follow the next steps to create the shared libraries from the game's sourcecode:
 ```sh
 cd Game
 sudo make all    # makes all versions of the game
@@ -120,26 +116,19 @@ sudo apt-get install pkg-config
 ```
 
 ### Testing the environment
-Go to the directory with run.py to test if the environment is working. Enter the command:
+In the main installation directory, there is a symbolic link called space_fortress. This link reffers to the directory gym/env/space_fortress and was added for convieniency. In this folder execute run.py to test if the environment is working, using the following command:
 ```sh
-cd ..
 cd space_fortress
-```
-Then enter the command:
-```sh
 python run.py
 ```
-If a new window appears and the game is running, everything has been installed correctly.
+If a graphical window appears and the game is running, everything has been installed correctly.
+You can skip to the part below and go to the next section *Usage*.
 
-Go to the ' Usage ' section and skip the next section.
-
-If an error occurs that says:
+If an error occurs as below, please head over to the *Troubleshoot* section
 ```sh
 "OpenCV Error: Unspecified error (The function is not implemented. Rebuild the library with Windows, GTK+ 2.x or Carbon support. If you are on Ubuntu or Debian, install libgtk2.0-dev and pkg-config, then re-run cmake or configure script) in cvNamedWindow, file /io/opencv/modules/highui/src/window.cpp, line 565" 
 ```
-
-Then read the bugfixing section.
-
+- - - -
 # Usage
 ### Running the game
 
@@ -147,10 +136,8 @@ Inside the space_fortress map, run:
 ```sh
 python run.py
 ```
-
 Then execute the scripts with the keys: "z, x, c, v, b, n, m"
-
-In the constants file all settings for running the game can be found and tweaked.
+In the constants file, all settings for running the game can be found and tweaked.
 
 ### Start Training
 The network can be trained with the shell script train.sh located in the Simple_DQN folder. This script calls
@@ -159,6 +146,10 @@ the main python script in src along with parameters which specify where to save 
 ./train.sh SFC-v0 MyFirstTraining
 ```
 Instead of SFC, it is also possible to train AIM, SFS and SF.
+To show the help prompt use the command below:
+```sh
+./train.sh -h 
+```
 ### Resume Training
 With the resume script, a halted training process can be resumed.
 ```sh
@@ -168,10 +159,14 @@ The learning algorithm uses 'epochs', which can be seen as checkpoints. The epoc
 
 Note: Please make sure the network trained until one epoch before trying to resume. The script will otherwise not work, because no checkpoint was saved.
 
-# Bug fixes
-
-### Fixing OpenCV
-
+To show the help prompt use the command below:
+```sh
+./resume.sh -h 
+```
+- - - -
+# Troubleshoot
+When setting up the repository, you might encounter bugs. This section covers the bugs our team found when setting up our repository on multiple systems.
+### OpenCV Bug
 Retry to install the correct openCV dependencies
 ```sh
 sudo apt-get install libopencv-dev python-opencv
@@ -185,15 +180,12 @@ cv2.__file__
 ```
 
 The output line should look like this:
-
-'/usr/lib/python2.7/dist-packages/cv2.x86_64-linux-gnu.so'
+``/usr/lib/python2.7/dist-packages/cv2.x86_64-linux-gnu.so``
 
 If cv2 is imported from another location, browse to that location and delete the directory and/or files.
-
 Keep repeating the above steps until cv2 is imported from the file cv2.x86_64-linux-gnu.so, as shown above.
-
 Afterwards, exit the python environment rerun the following command:
 ```sh
 python run.py
 ```
-If everything was done correctly, the game should be working by now.
+<!-- If everything was done correctly, the game should be working by now. -->
