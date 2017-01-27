@@ -99,8 +99,12 @@ class SFEnv(gym.Env):
 		action = self._action_set[a] # Select the action from the action dictq
 		reward = 0.0
 		done = False
+		
 		for frame in range(self.frame_skip):
-			self.act(action[frame])
+			if not isinstance(action, list):
+				self.act(action)
+			else:
+				self.act(action[frame])
 			self.update_logic()
 			reward += self.score()
 			done = self.terminal_state()
