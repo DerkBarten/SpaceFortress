@@ -131,8 +131,26 @@ Then read and follow the next section.
 
 ### Fixing OpenCV
 
-To be written.
+Open a new terminal and execute the commands:
+```sh
+python -v
+import cv2
+```
 
+A lot of useless text will appear in the terminal. All of this can be skipped, except for the last line.
+The last line should look like this:
+```sh
+import cv2 # dynamically loaded from /usr/lib/python2.7/dist-packages/cv2.x86_64-linux-gnu.so
+```
+If cv2 is imported from another location, browse to that location and delete the directory and/or files.
+
+Keep repeating the above steps until cv2 is imported from the file cv2.x86_64-linux-gnu.so, as shown above.
+
+Afterwards, exit the python environment rerun the following command:
+```sh
+python run.py
+```
+If everything was done correctly, the game should be working by now.
 
 # Usage
 
