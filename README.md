@@ -143,7 +143,7 @@ In the constants file, all settings for running the game can be found and tweake
 The network can be trained with the shell script train.sh located in the Simple_DQN folder. This script calls
 the main python script in src along with parameters which specify where to save the weights and results. For instance, the command below will save the training data in ``runs/SFC/MyFirstTraining``.
 ```sh
-./train.sh SFC-v0 MyFirstTraining
+./train.sh SFC MyFirstTraining cpu
 ```
 Instead of SFC, it is also possible to train AIM, SFS and SF.
 To show the help prompt use the command below:
@@ -153,7 +153,7 @@ To show the help prompt use the command below:
 ### Resume Training
 With the resume script, a halted training process can be resumed.
 ```sh
-./resume.sh SFC-v0 MyFirstTraining
+./resume.sh SFC MyFirstTraining cpu
 ```
 The learning algorithm uses 'epochs', which can be seen as checkpoints. The epochs are saved as .prm files in the weights folder, in the above example, the path to the weights would be ``runs/SFC/MyFirstTraining/weights``. The script will automatically find the most recent checkpoint and load the data. The results and statistics of the training are stored in .csv files. Each time the training is resumed, a new .csv file is created witch a session ID which makes it easier to identify training sessions.
 
