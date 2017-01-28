@@ -100,7 +100,7 @@ class GymEnvironment(Environment):
 	def __init__(self, env_id, args):
 		import gym
 		self.gym = gym.make(env_id)
-		if self.gym.spec.id in ["SFS-v0", "SFC-v0", "AIM-v0"]:
+		if self.gym.spec.id in ["SFS-v0", "SFC-v0", "AIM-v0", "SF-v0"]:
 			# Change this to a variable rendering mode
 			if args.display_screen == False:
 				self.gym.configure(mode="rgb_array", no_direction=args.no_direction)
@@ -127,7 +127,6 @@ class GymEnvironment(Environment):
 	def numActions(self):
 		import gym
 		assert isinstance(self.gym.action_space, gym.spaces.Discrete)
-		print(self.gym._action_set)
 		return self.gym.action_space.n
 
 	def restart(self):
@@ -141,7 +140,7 @@ class GymEnvironment(Environment):
 	def getScreen(self):
 		assert self.obs is not None
 		self.gym.render()
-		if self.gym.spec.id in ["SFS-v0", "SFC-v0", "AIM-v0"]:
+		if self.gym.spec.id in ["SFS-v0", "SFC-v0", "AIM-v0", "SF-v0"]:
 #			print(self.obs.shape)
 #			print((self.screen_height, self.screen_width))
 
