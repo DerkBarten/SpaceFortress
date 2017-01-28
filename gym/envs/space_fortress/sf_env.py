@@ -50,29 +50,27 @@ class SFEnv(gym.Env):
 		# It is possible to specify a seed for random number generation
 		self._seed()
 		if game == Games.SFS.value or game == Games.SF.value:
+                    
 			# All keys allowed
-			
-                        # Old action space single buttons
-			#self._action_set = {0 : KeyMap.LEFT.value, 1 : KeyMap.UP.value, 2 : KeyMap.RIGHT.value, 3 : KeyMap.SHOOT.value}
-			
-			# New action space with scripts 
-			self._action_set = {0 : ScriptsSF.SCRIPT1.value, 1 : ScriptsSF.SCRIPT2.value, 2 : ScriptsSF.SCRIPT3.value, 3 : ScriptsSF.SCRIPT4.value, 4 : ScriptsSF.SCRIPT5.value}
-			
+			if SCRIPTS.value == "on": # New action space with scripts 
+                            self._action_set = {0 : ScriptsSF.SCRIPT1.value, 1 : ScriptsSF.SCRIPT2.value, 2 : ScriptsSF.SCRIPT3.value, 3 : ScriptsSF.SCRIPT4.value, 4 : ScriptsSF.SCRIPT5.value}
+                        else:                     # Old action space single buttons
+                            self._action_set = {0 : KeyMap.LEFT.value, 1 : KeyMap.UP.value, 2 : KeyMap.RIGHT.value, 3 : KeyMap.SHOOT.value}
+                            
 		if game == Games.AIM.value:
 			# Only rotate left/right and shoot
-			
-			# Old action space single buttons
-			self._action_set = {0 : KeyMap.SHOOT.value, 1 : KeyMap.LEFT.value, 2 : KeyMap.RIGHT.value}
+			if SCRIPTS.value == "on": # New action space with scripts 
+                            self._action_set = {0 : [KeyMap.SHOOT.value], 1 : [KeyMap.LEFT.value], 2 : [KeyMap.RIGHT.value]}
+			else:# Old action space single buttons
+                            self._action_set = {0 : KeyMap.SHOOT.value, 1 : KeyMap.LEFT.value, 2 : KeyMap.RIGHT.value}
 			
 		if game == Games.SFC.value:
 			# Only rotate left/right and forward
-			
-			# Old action space single buttons
-			#self._action_set = {0 : KeyMap.LEFT.value, 1 : KeyMap.RIGHT.value, 2 : KeyMap.UP.value} 
-			
-			# New action space with scripts
-			self._action_set = {0 : ScriptsSFC.SCRIPT1.value, 1 : ScriptsSFC.SCRIPT2.value, 2 : ScriptsSFC.SCRIPT3.value, 3 : ScriptsSFC.SCRIPT4.value, 4 : ScriptsSFC.SCRIPT5.value, 5 : ScriptsSFC.SCRIPT6.value, 6 : ScriptsSFC.SCRIPT7.value}
-			
+			if SCRIPTS.value == "on": # New action space with scripts 
+                            self._action_set = {0 : ScriptsSFC.SCRIPT1.value, 1 : ScriptsSFC.SCRIPT2.value, 2 : ScriptsSFC.SCRIPT3.value, 3 : ScriptsSFC.SCRIPT4.value, 4 : ScriptsSFC.SCRIPT5.value, 5 : ScriptsSFC.SCRIPT6.value, 6 : ScriptsSFC.SCRIPT7.value}
+			else:                     # Old action space single buttons
+                            self._action_set = {0 : KeyMap.LEFT.value, 1 : KeyMap.RIGHT.value, 2 : KeyMap.UP.value} 
+                            
 		# The number of bytes to read in from the returned image pointer
 		# which happens to be equal to the amount of pixels in the image
 		self.n_bytes = ((int(self.screen_height/self.scale)) * (int(self.screen_width/self.scale)))

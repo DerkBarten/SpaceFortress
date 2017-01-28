@@ -55,7 +55,11 @@ class RenderSpeed(Enum):
 	SLOW=42
 	MEDIUM=20
 	FAST=8
-	
+
+class EnableScripts(Enum):
+        ON = "on"
+        OFF = "off"
+
 # GAME SETTINGS FOR RUN.PY
 GAME=Games.SF
 RENDER_MODE=RenderMode.HUMAN
@@ -65,6 +69,7 @@ LIBRARY_PATH=str(os.path.dirname(os.path.realpath(__file__))) + "/shared"
 GAME_VERSION='v0'
 
 # OVERALL SETTINGS
+SCRIPTS = EnableScripts.ON
 DEFAULT_RENDER_MODE=RenderMode.RGB_ARRAY.value
 DEFAULT_MAXSTEPS=2500000
 DEFAULT_TIMES=100

@@ -18,13 +18,16 @@ env = gym.make(game_name)
 # Configure enviroment
 
 # Get the length of the scripts
-if GAME.value == "SFC":
-    script_length = len(ScriptsSFC.SCRIPT1.value) 
-elif GAME.value == "SF" or GAME.value == "SFS":
-    script_length = len(ScriptsSF.SCRIPT1.value)
-elif GAME.value == AIM:
-    script_length = 1 # to be implemented
-    
+if SCRIPTS.value == "on":
+    if GAME.value == "SFC":
+        script_length = len(ScriptsSFC.SCRIPT1.value) 
+    elif GAME.value == "SF" or GAME.value == "SFS":
+        script_length = len(ScriptsSF.SCRIPT1.value)
+    elif GAME.value == AIM:
+        script_length = 1 # to be implemented
+else:
+    script_length = 1
+
 env.configure(mode=RENDER_MODE, record_path=None, no_direction=False, frame_skip=script_length)
 
 
@@ -32,15 +35,27 @@ def on_press(key):
     key = str(key).replace("'", "")  # Get keyboard input
     global current_key               # Global var to use outside function
     
+    
     # Keymap input to action space using dictionary
-    if GAME.value == "SF" or GAME.value == "SFS":
-        key_to_action = {"uz" : 0, "ux" : 1, "uc" : 2, "uv" : 3, "ub" : 4} 
-        
-    elif GAME.value == "SFC":
-        key_to_action = {"uz" : 0, "ux" : 1, "uc" : 2, "uv" : 3, "ub" : 4, "un" : 5, "um" : 6} 
-        
-    elif GAME.value == "AIM":
-        key_to_action = {"uz" : 0, "ux" : 1, "uc" : 2} 
+    if SCRIPTS.value == "on": # Bind buttons to use correct scripts
+        if GAME.value == "SF" or GAME.value == "SFS":
+            key_to_action = {"uz" : 0, "ux" : 1, "uc" : 2, "uv" : 3, "ub" : 4} 
+
+        elif GAME.value == "SFC":
+            key_to_action = {"uz" : 0, "ux" : 1, "uc" : 2, "uv" : 3, "ub" : 4, "un" : 5, "um" : 6} 
+            
+        elif GAME.value == "AIM":
+            key_to_action = {"uz" : 0, "ux" : 1, "uc" : 2} 
+            
+    else:                     # Otherwise use normal actions with arrow keys
+        if GAME.value == "SFC":
+            key_to_action = {"Key.left" : 0, "Key.up" : 2, "Key.right" : 1} 
+            
+        elif GAME.value == "SF" or GAME.value == "SFS":
+            key_to_action = {"Key.left" : 0, "Key.up" : 1, "Key.right" : 2, "Key.down" : 3, "Key.space" : 3} 
+            
+        elif GAME.value == "AIM":
+            key_to_action = {"Key.left" : 1, "Key.up" : 0, "Key.right" : 2, "Key.down" : 0, "Key.space" : 0} 
         
     if key in key_to_action.keys():
         current_key = key_to_action[key]
