@@ -52,24 +52,21 @@ def on_release(key):
 # Current key has to be initialized before first input of keyboard
 current_key = 0
 
-def play(times=DEFAULT_TIMES, max_steps=DEFAULT_MAXSTEPS):
+def play():
     # Start listening to the keyboard
     with Listener(on_press=on_press, on_release=on_release) as listener:
         # Stop listening if sample actions should be used instead of keyboard
         if RENDER_SPEED != RenderSpeed.DEBUG:
             listener.stop()
             
-	for game in range(times):
-		env.reset()
-		for t in range(max_steps):
-			env.render(mode=RENDER_MODE.value)
-			if RENDER_SPEED == RenderSpeed.DEBUG:
-                            action = current_key
-			else:
-                            action = env.action_space.sample()
-			observation, reward, done, _ = env.step(action)
-	if WRITE_STATS:
-		env.write_out_stats("test")
-		env.close()
+	while True:
+            env.render(mode=RENDER_MODE.value)
+            if RENDER_SPEED == RenderSpeed.DEBUG:
+                action = current_key
+            else:
+                action = env.action_space.sample()
+            observation, reward, done, _ = env.step(action)
+            if done == 1:
+                env.reset()
 	
 play()
