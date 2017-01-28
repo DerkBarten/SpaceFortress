@@ -38,6 +38,22 @@ class ScriptsSFC(Enum):
         # Script 7: Move forward thrice
         SCRIPT7=[KeyMap.UP.value,KeyMap.UP.value,KeyMap.UP.value]
 	
+class ScriptsAIM(Enum):
+        # Script 1: Move left 2 times then shoot
+        SCRIPT1=[KeyMap.LEFT.value,KeyMap.LEFT.value,KeyMap.SHOOT.value]
+        # Script 2: Move right 2 times then shoot
+        SCRIPT2=[KeyMap.RIGHT.value,KeyMap.RIGHT.value,KeyMap.SHOOT.value]
+        # Script 3: Move right 3 times
+        SCRIPT3=[KeyMap.RIGHT.value,KeyMap.RIGHT.value,KeyMap.RIGHT.value]
+        # Script 4: Move left 3 times
+        SCRIPT4=[KeyMap.LEFT.value,KeyMap.LEFT.value,KeyMap.LEFT.value]
+        # Script 5: Move left then shoot twice
+        SCRIPT5=[KeyMap.LEFT.value,KeyMap.SHOOT.value,KeyMap.SHOOT.value]
+        # Script 6: Move right then shoot twice
+        SCRIPT6=[KeyMap.RIGHT.value,KeyMap.SHOOT.value,KeyMap.SHOOT.value]
+        # Script 7: Shoot thrice
+        SCRIPT7=[KeyMap.SHOOT.value,KeyMap.SHOOT.value,KeyMap.SHOOT.value]
+	
 class Games(Enum):
 	SFS="SFS"
 	SF="SF"
@@ -48,7 +64,7 @@ class RenderMode(Enum):
 	HUMAN="human"
 	MINIMAL="minimal"
 	RGB_ARRAY="rgb_array"
-   
+
 class RenderSpeed(Enum):
 	# actually more of a render delay than speed
 	DEBUG=0

@@ -23,8 +23,8 @@ if SCRIPTS.value == "on":
         script_length = len(ScriptsSFC.SCRIPT1.value) 
     elif GAME.value == "SF" or GAME.value == "SFS":
         script_length = len(ScriptsSF.SCRIPT1.value)
-    elif GAME.value == AIM:
-        script_length = 1 # to be implemented
+    elif GAME.value == "AIM":
+        script_length = len(ScriptsAIM.SCRIPT1.value)
 else:
     script_length = 1
 
@@ -45,7 +45,7 @@ def on_press(key):
             key_to_action = {"uz" : 0, "ux" : 1, "uc" : 2, "uv" : 3, "ub" : 4, "un" : 5, "um" : 6} 
             
         elif GAME.value == "AIM":
-            key_to_action = {"uz" : 0, "ux" : 1, "uc" : 2} 
+            key_to_action = {"uz" : 0, "ux" : 1, "uc" : 2, "uv" : 3, "ub" : 4, "un" : 5, "um" : 6} 
             
     else:                     # Otherwise use normal actions with arrow keys
         if GAME.value == "SFC":

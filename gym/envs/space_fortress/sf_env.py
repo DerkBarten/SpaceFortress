@@ -49,8 +49,8 @@ class SFEnv(gym.Env):
 		self.scale = 5.3
 		# It is possible to specify a seed for random number generation
 		self._seed()
+		
 		if game == Games.SFS.value or game == Games.SF.value:
-                    
 			# All keys allowed
 			if SCRIPTS.value == "on": # New action space with scripts 
                             self._action_set = {0 : ScriptsSF.SCRIPT1.value, 1 : ScriptsSF.SCRIPT2.value, 2 : ScriptsSF.SCRIPT3.value, 3 : ScriptsSF.SCRIPT4.value, 4 : ScriptsSF.SCRIPT5.value}
@@ -60,7 +60,7 @@ class SFEnv(gym.Env):
 		if game == Games.AIM.value:
 			# Only rotate left/right and shoot
 			if SCRIPTS.value == "on": # New action space with scripts 
-                            self._action_set = {0 : [KeyMap.SHOOT.value], 1 : [KeyMap.LEFT.value], 2 : [KeyMap.RIGHT.value]}
+                            self._action_set = {0 : ScriptsAIM.SCRIPT1.value, 1 : ScriptsAIM.SCRIPT2.value, 2 : ScriptsAIM.SCRIPT3.value, 3 : ScriptsAIM.SCRIPT4.value, 4 : ScriptsAIM.SCRIPT5.value, 5 : ScriptsAIM.SCRIPT6.value, 6 : ScriptsAIM.SCRIPT7.value}
 			else:# Old action space single buttons
                             self._action_set = {0 : KeyMap.SHOOT.value, 1 : KeyMap.LEFT.value, 2 : KeyMap.RIGHT.value}
 			
@@ -207,11 +207,11 @@ class SFEnv(gym.Env):
 			self.update_logic = ctypes.CDLL(libpath +'/'+libname).SF_iteration
 			self.update_screen = ctypes.CDLL(libpath +'/'+libname).update_screen
 			self.update_screen.restype = ctypes.POINTER(ctypes.c_ubyte * self.n_bytes)
-		except:
+		except: 
 			print("Warning: Some functions where not found in the library.")
 		try:
 			self.best = ctypes.CDLL(libpath +'/'+libname).get_best_move
-		except:
+		except: # Not implemented in the game yet
 			print("Warning: best_move function not found in the library.")
 
 		self.terminal_state = ctypes.CDLL(libpath +'/'+libname).get_terminal_state
