@@ -13,7 +13,11 @@ if [ $extension != "csv" ];then
 	exit 1;
 fi
 
-echo $inputfile
-echo $outputfile
+echo $2
+
+if [ -z $2 ]; then
+	python src/plot.py $inputfile
+	exit
+fi
 
 python src/plot.py $inputfile --png_file $outputfile

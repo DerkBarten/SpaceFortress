@@ -224,11 +224,13 @@ void cairo_line(cairo_t *cr, int x1, int y1, int x2, int y2)
 //	double y2 = (double) y_2;
 
 // This code generates straighter and sharper lines, but also drops parts of objects for 
-// some reason //	cairo_user_to_device(cr, &x1, &y1);
+// some reason
+//	cairo_user_to_device(cr, &x1, &y1);
 //	x1 = round(x1) + 0.5;
 //	y1 = round(y1) + 0.5;
 //	cairo_device_to_user(cr, &x1, &y1);
-// //	cairo_user_to_device(cr, &x2, &y2);
+//
+//	cairo_user_to_device(cr, &x2, &y2);
 //	x2 = round(x2) + 0.5;
 //	y2 = round(y2) + 0.5;
 //	cairo_device_to_user(cr, &x2, &y2);
@@ -370,6 +372,7 @@ int get_terminal_state()
 {
 	return Terminal_State;
 }
+
 
 // W and H are the dimensions of the clipping rectangle
 void cairo_clip_text(cairo_t *cr, int x1, int y1, int w,  int h)
