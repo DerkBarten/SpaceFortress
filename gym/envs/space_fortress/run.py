@@ -19,12 +19,7 @@ env = gym.make(game_name)
 
 # Get the length of the scripts
 if SCRIPTS.value == "on":
-    if GAME.value == "SFC":
-        script_length = len(ScriptsSFC.SCRIPT1.value) 
-    elif GAME.value == "SF" or GAME.value == "SFS":
-        script_length = len(ScriptsSF.SCRIPT1.value)
-    elif GAME.value == "AIM":
-        script_length = len(ScriptsAIM.SCRIPT1.value)
+    script_length = SCRIPT_LENGTH.value 
 else:
     script_length = 1
 

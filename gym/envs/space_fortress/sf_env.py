@@ -18,6 +18,7 @@ import sys
 from constants import *
 import time
 
+
 # SFEnv is a child of the environment template located in gym/core.py
 # This instance handles the space fortress environment
 class SFEnv(gym.Env):
@@ -53,21 +54,30 @@ class SFEnv(gym.Env):
 		if game == Games.SFS.value or game == Games.SF.value:
 			# All keys allowed
 			if SCRIPTS.value == "on": # New action space with scripts 
-                            self._action_set = {0 : ScriptsSF.SCRIPT1.value, 1 : ScriptsSF.SCRIPT2.value, 2 : ScriptsSF.SCRIPT3.value, 3 : ScriptsSF.SCRIPT4.value, 4 : ScriptsSF.SCRIPT5.value}
+                            if SCRIPT_LENGTH.value == 3: 
+                                self._action_set = {0 : ScriptsSF_3.SCRIPT1.value, 1 : ScriptsSF_3.SCRIPT2.value, 2 : ScriptsSF_3.SCRIPT3.value, 3 : ScriptsSF_3.SCRIPT4.value, 4 : ScriptsSF_3.SCRIPT5.value}
+                            if SCRIPT_LENGTH.value == 9:
+                                self._action_set = {0 : ScriptsSF_9.SCRIPT1.value, 1 : ScriptsSF_9.SCRIPT2.value, 2 : ScriptsSF_9.SCRIPT3.value, 3 : ScriptsSF_9.SCRIPT4.value, 4 : ScriptsSF_9.SCRIPT5.value}
                         else:                     # Old action space single buttons
                             self._action_set = {0 : KeyMap.LEFT.value, 1 : KeyMap.UP.value, 2 : KeyMap.RIGHT.value, 3 : KeyMap.SHOOT.value}
                             
 		if game == Games.AIM.value:
 			# Only rotate left/right and shoot
 			if SCRIPTS.value == "on": # New action space with scripts 
-                            self._action_set = {0 : ScriptsAIM.SCRIPT1.value, 1 : ScriptsAIM.SCRIPT2.value, 2 : ScriptsAIM.SCRIPT3.value, 3 : ScriptsAIM.SCRIPT4.value, 4 : ScriptsAIM.SCRIPT5.value, 5 : ScriptsAIM.SCRIPT6.value, 6 : ScriptsAIM.SCRIPT7.value}
+                            if SCRIPT_LENGTH.value == 3:
+                                self._action_set = {0 : ScriptsAIM_3.SCRIPT1.value, 1 : ScriptsAIM_3.SCRIPT2.value, 2 : ScriptsAIM_3.SCRIPT3.value, 3 : ScriptsAIM_3.SCRIPT4.value, 4 : ScriptsAIM_3.SCRIPT5.value, 5 : ScriptsAIM_3.SCRIPT6.value, 6 : ScriptsAIM_3.SCRIPT7.value}
+                            if SCRIPT_LENGTH.value == 9:
+                                self._action_set = {0 : ScriptsAIM_9.SCRIPT1.value, 1 : ScriptsAIM_9.SCRIPT2.value, 2 : ScriptsAIM_9.SCRIPT3.value, 3 : ScriptsAIM_9.SCRIPT4.value, 4 : ScriptsAIM_9.SCRIPT5.value, 5 : ScriptsAIM_9.SCRIPT6.value, 6 : ScriptsAIM_9.SCRIPT7.value}
 			else:# Old action space single buttons
                             self._action_set = {0 : KeyMap.SHOOT.value, 1 : KeyMap.LEFT.value, 2 : KeyMap.RIGHT.value}
 			
 		if game == Games.SFC.value:
 			# Only rotate left/right and forward
 			if SCRIPTS.value == "on": # New action space with scripts 
-                            self._action_set = {0 : ScriptsSFC.SCRIPT1.value, 1 : ScriptsSFC.SCRIPT2.value, 2 : ScriptsSFC.SCRIPT3.value, 3 : ScriptsSFC.SCRIPT4.value, 4 : ScriptsSFC.SCRIPT5.value, 5 : ScriptsSFC.SCRIPT6.value, 6 : ScriptsSFC.SCRIPT7.value}
+                            if SCRIPT_LENGTH.value == 3:
+                                self._action_set = {0 : ScriptsSFC_3.SCRIPT1.value, 1 : ScriptsSFC_3.SCRIPT2.value, 2 : ScriptsSFC_3.SCRIPT3.value, 3 : ScriptsSFC_3.SCRIPT4.value, 4 : ScriptsSFC_3.SCRIPT5.value, 5 : ScriptsSFC_3.SCRIPT6.value, 6 : ScriptsSFC_3.SCRIPT7.value}
+                            if SCRIPT_LENGTH.value == 9:
+                                self._action_set = {0 : ScriptsSFC_9.SCRIPT1.value, 1 : ScriptsSFC_9.SCRIPT2.value, 2 : ScriptsSFC_9.SCRIPT3.value, 3 : ScriptsSFC_9.SCRIPT4.value, 4 : ScriptsSFC_9.SCRIPT5.value, 5 : ScriptsSFC_9.SCRIPT6.value, 6 : ScriptsSFC_9.SCRIPT7.value}
 			else:                     # Old action space single buttons
                             self._action_set = {0 : KeyMap.LEFT.value, 1 : KeyMap.RIGHT.value, 2 : KeyMap.UP.value} 
                             
@@ -97,7 +107,6 @@ class SFEnv(gym.Env):
 		action = self._action_set[a] # Select the action from the action dictq
 		reward = 0.0
 		done = False
-		
 		for frame in range(self.frame_skip):
 			if not isinstance(action, list):
 				self.act(action)
@@ -176,7 +185,7 @@ class SFEnv(gym.Env):
 		self.stop_drawing()
 
 	# Configure the space fortress gym environment
-	def _configure(self, mode=DEFAULT_RENDER_MODE, debug=False, record_path=None, no_direction=False, lib_suffix="", frame_skip=3, libpath=LIBRARY_PATH):
+	def _configure(self, mode=DEFAULT_RENDER_MODE, debug=False, record_path=None, no_direction=False, lib_suffix="", frame_skip=SCRIPT_LENGTH.value, libpath=LIBRARY_PATH):
 		self.debug = debug
 		self.frame_skip = frame_skip
 		self.mode = mode
