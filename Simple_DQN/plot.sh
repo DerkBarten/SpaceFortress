@@ -1,21 +1,19 @@
 #!/usr/bin/env bash
-
-inputfile=$1
+game="$1"
+experiment="$2"
+inputfile=runs/$game/$experiment/${game}_${experiment}.csv
 
 # ignore the extension of the output file
 outputfile=`echo $2 | cut -d . -f 1`.png 
 
-# get the extension of the input file
-extension=`echo $inputfile | cut -d . -f 2`
 
-if [ $extension != "csv" ];then
-	echo "Please select a csv file"
+if [ `wc -l < ${inputfile}` == 0 ];then
+	echo "File not found"
 	exit 1;
 fi
 
-echo $2
 
-if [ -z $2 ]; then
+if [ -z $3 ]; then
 	python src/plot.py $inputfile
 	exit
 fi
