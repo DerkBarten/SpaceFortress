@@ -1,12 +1,12 @@
 #!/usr/bin/env bash
 
-snapshot=$1
+snapshot=$2
 #full=${1##*/}
-game=$2
+game=$1
 
 if [ "$1" == "-h" ]; then
 	echo "Plays a single game with the specified weights. "
-	echo "Usage: ./play.sh WEIGHTS GAME"
+	echo "Usage: ./play.sh GAME WEIGHTS"
   exit 1;
 fi
 

@@ -2,6 +2,7 @@ import argparse
 import math
 import numpy as np
 import matplotlib.pyplot as plt
+import os
 
 parser = argparse.ArgumentParser()
 parser.add_argument("csv_file")
@@ -77,6 +78,10 @@ for i, field in enumerate(args.fields):
   plt.title(labels[field])
 
 plt.tight_layout()
+
+fig = plt.gcf()
+name = os.path.basename(args.csv_file)
+fig.canvas.set_window_title(name)
 
 # if png_file argument given, save to file
 if args.png_file is not None:
