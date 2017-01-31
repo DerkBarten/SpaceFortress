@@ -26,7 +26,7 @@ parser = argparse.ArgumentParser()
 envarg = parser.add_argument_group('Environment')
 envarg.add_argument("game", help="ROM bin file or env id such as Breakout-v0 if training with Open AI Gym.")
 envarg.add_argument("--environment", choices=["ale", "gym"], default="gym", help="Whether to train agent using ALE or OpenAI Gym.")
-envarg.add_argument("--display_screen", type=str2display, default=False, help="The modus of the screen during gameplay. (backwards compatible)")
+envarg.add_argument("--display_screen", type=str2display, default="True", help="The modus of the screen during gameplay. (backwards compatible)")
 #envarg.add_argument("--sound", type=str2bool, default=False, help="Play (or record) sound.")
 envarg.add_argument("--frame_skip", type=int, default=3, help="How many times to repeat each chosen action.") # Change to 3 or 9 according to script length - to be soft coded
 envarg.add_argument("--repeat_action_probability", type=float, default=0, help="Probability, that chosen action will be repeated. Otherwise random action is chosen during repeating.")
@@ -108,6 +108,7 @@ if args.environment == 'ale':
 	logger.info("Using ALE Environment")
 elif args.environment == 'gym':
 	logger.handlers.pop()
+	print(args.display_screen)
 	env = GymEnvironment(args.game, args)
 	logger.info("Using Gym Environment")
 else:

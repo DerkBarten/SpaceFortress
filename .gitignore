@@ -1,4 +1,6 @@
 .*kate*
 *.pyc
 *.prm
+*.so
+*.o
 !Simple_DQN/snapshots/*.prm

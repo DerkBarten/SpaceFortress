@@ -134,7 +134,7 @@ class ScriptLength(Enum):
 	NINE = 9
 
 # GAME SETTINGS FOR RUN.PY
-GAME=Games.SF
+GAME=Games.AIM
 RENDER_MODE=RenderMode.HUMAN
 RENDER_SPEED=RenderSpeed.DEBUG
 LIBRARY_NAME="_frame_lib"

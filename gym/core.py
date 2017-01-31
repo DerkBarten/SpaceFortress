@@ -77,7 +77,7 @@ class Env(object):
     # Override in ALL subclasses
     def _step(self, action): raise NotImplementedError
     def _reset(self): raise NotImplementedError
-    def _render(self, mode='rgb_array', close=False):
+    def _render(self, mode, close=False):
         if close:
             return
         raise NotImplementedError
@@ -182,7 +182,7 @@ class Env(object):
         elif mode not in modes:
             raise error.UnsupportedMode('Unsupported rendering mode: {}. (Supported modes for {}: {})'.format(mode, self, modes))
 
-        return self._render(mode=mode, close=close)
+        return self._render(mode, close=close)
 
     #def setSettings(self, settings):
 	#return self._setSettings(settings)
@@ -332,7 +332,7 @@ class Wrapper(Env):
     def _reset(self):
         return self.env.reset()
 
-    def _render(self, mode='rgb_array', close=False):
+    def _render(self, mode, close=False):
         return self.env.render(mode, close)
 
     def _close(self):

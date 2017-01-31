@@ -106,7 +106,7 @@ class GymEnvironment(Environment):
 				self.gym.configure(mode="rgb_array", no_direction=args.no_direction)
 			else:
 				if args.display_screen == True or args.display_screen == 'true' or args.display_screen == 'True':
-					mode = "human_sleep"
+					mode = "human"
 				else:
 					mode = args.display_screen
 				if args.record_screen_path:

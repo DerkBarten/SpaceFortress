@@ -122,7 +122,8 @@ class SFEnv(gym.Env):
 
 	# Renders the current state of the game, only for our visualisation purposes
 	# it is not important for the learning algorithm
-	def _render(self, mode=DEFAULT_RENDER_MODE, close=False):
+	def _render(self, mode, close=False):
+		mode = self.mode
 		if not mode == RenderMode.RGB_ARRAY.value:
 			img = None
 			render_delay = None
@@ -189,7 +190,6 @@ class SFEnv(gym.Env):
 		self.debug = debug
 		self.frame_skip = frame_skip
 		self.mode = mode
-		
 		# Get the right shared library for the game
 		if self.game == Games.SFS.value:
 			libname = Games.SF.value.lower()
