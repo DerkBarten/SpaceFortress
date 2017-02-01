@@ -23,7 +23,7 @@ if SCRIPTS.value == "on":
 else:
     script_length = 1
 
-env.configure(mode=RENDER_MODE, record_path=None, no_direction=False, frame_skip=script_length)
+env.configure(mode=RENDER_MODE.value, record_path=None, no_direction=False, frame_skip=script_length)
 
 
 def on_press(key):

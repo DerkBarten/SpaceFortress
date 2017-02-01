@@ -108,7 +108,6 @@ if args.environment == 'ale':
 	logger.info("Using ALE Environment")
 elif args.environment == 'gym':
 	logger.handlers.pop()
-	print(args.display_screen)
 	env = GymEnvironment(args.game, args)
 	logger.info("Using Gym Environment")
 else:

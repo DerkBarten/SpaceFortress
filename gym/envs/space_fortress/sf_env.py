@@ -122,7 +122,7 @@ class SFEnv(gym.Env):
 
 	# Renders the current state of the game, only for our visualisation purposes
 	# it is not important for the learning algorithm
-	def _render(self, mode, close=False):
+	def _render(self, mode=DEFAULT_RENDER_MODE, close=False):
 		mode = self.mode
 		if not mode == RenderMode.RGB_ARRAY.value:
 			img = None
