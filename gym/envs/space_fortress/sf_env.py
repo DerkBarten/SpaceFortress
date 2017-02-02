@@ -39,11 +39,8 @@ class SFEnv(gym.Env):
 		else:
 			print("Invalid game name")
 			sys.exit(0)
-<<<<<<< HEAD
+			
 		self.logger = logging.getLogger()
-=======
-
->>>>>>> 85614e22f5f215f6dd4ad0160dd3ee854f2582d7
 		# The game which will be played, the possible games are
 		# located in the enum Games in constants.py
 		self.game = game
@@ -195,7 +192,8 @@ class SFEnv(gym.Env):
 	def _configure(self, mode=DEFAULT_RENDER_MODE, debug=False, record_path=None, no_direction=False, lib_suffix="", frame_skip=SCRIPT_LENGTH.value, libpath=LIBRARY_PATH):
 		
 		self.debug = debug
-		self.frame_skip = frame_skip
+		# overwrite from constants.py
+		self.frame_skip = FRAMESKIP
 		self.mode = mode
 		# Get the right shared library for the game
 		if self.game == Games.SFS.value:
@@ -212,15 +210,12 @@ class SFEnv(gym.Env):
 			libname += "_FULL"
 
 		libname += ".so"
-<<<<<<< HEAD
 		
 		self.logger.info("Using scripts: %s" % SCRIPTS.value)
 		if SCRIPTS == EnableScripts.ON:
 			self.logger.info("Script length: %s" % str(SCRIPT_LENGTH.value))
+		self.logger.info("With FrameSkip: %s" % FRAMESKIP)
 		
-=======
-
->>>>>>> 85614e22f5f215f6dd4ad0160dd3ee854f2582d7
 		# Link the environment to the shared libraries
 		self.update = ctypes.CDLL(libpath + '/'+libname).update_frame
 		self.init_game = ctypes.CDLL(libpath +'/'+libname).start_drawing
