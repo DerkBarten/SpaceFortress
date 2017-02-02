@@ -212,6 +212,7 @@ GAME_VERSION='v0'
 
 # OVERALL SETTINGS
 SCRIPTS = EnableScripts.ON
+FRAMESKIP=1
 SCRIPT_LENGTH = ScriptLength.THREE # Should be three if scripts is off
 FRAMESKIP=SCRIPT_LENGTH.value
 ALL_COMBINATIONS = AllCombinations.OFF
