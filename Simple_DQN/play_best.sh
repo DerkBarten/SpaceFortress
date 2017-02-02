@@ -16,7 +16,7 @@ fi
 weights=snapshots/${game}_${experiment}_Best.prm
 
 # get snapshot if not present
-if [ -f ${weights} ]; then
+if [ ! -f ${weights} ]; then
 	./get_best.sh $game $experiment $backend
 fi
 
