@@ -91,6 +91,71 @@ class ScriptsAIM_3(Enum):
         # Script 7: Shoot thrice
         SCRIPT7=[SHOOT,SHOOT,SHOOT]
 
+class ScriptsAIM_3_All(Enum):
+# Shoot twice and then:
+	# shoot
+	SCRIPT1=[SHOOT,SHOOT,SHOOT]
+	# move left
+	SCRIPT2=[SHOOT,SHOOT,LEFT]
+	# move right
+	SCRIPT3=[SHOOT,SHOOT,RIGHT]
+# Shoot once, then move left and then:
+	# shoot
+	SCRIPT4=[SHOOT,LEFT,SHOOT]
+	# move left
+	SCRIPT5=[SHOOT,LEFT,LEFT]
+	# move rigth
+	SCRIPT6=[SHOOT,LEFT,RIGHT]
+# Shoot once, then move right and then:
+	# shoot
+	SCRIPT7=[SHOOT,RIGHT,SHOOT]
+	# move right
+	SCRIPT8=[SHOOT,RIGHT,RIGHT]
+	# move left
+	SCRIPT9=[SHOOT,RIGHT,LEFT]
+# Move left twice and then:
+	# move left
+	SCRIPT10=[LEFT,LEFT,LEFT]
+	# shoot
+	SCRIPT11=[LEFT,LEFT,SHOOT]
+	# move right
+	SCRIPT12=[LEFT,LEFT,RIGHT]
+# Move left, then shoot and then:
+	# move left
+	SCRIPT13=[LEFT,SHOOT,LEFT]
+	# shoot
+	SCRIPT14=[LEFT,SHOOT,SHOOT]
+	# move right
+	SCRIPT15=[LEFT,SHOOT,RIGHT]
+# Move left, then right and then:
+	# move left
+	SCRIPT16=[LEFT,RIGHT,LEFT]
+	# shoot
+	SCRIPT17=[LEFT,RIGHT,SHOOT]
+	# move right
+	SCRIPT18=[LEFT,RIGHT,RIGHT]
+# Move right twice and then:
+	# move right
+	SCRIPT19=[RIGHT,RIGHT,RIGHT]
+	# shoot
+	SCRIPT20=[RIGHT,RIGHT,SHOOT]
+	# move left
+	SCRIPT21=[RIGHT,RIGHT,LEFT]
+# Move right, then shoot and then:
+	# move right
+	SCRIPT22=[RIGHT,SHOOT,RIGHT]
+	# shoot
+	SCRIPT23=[RIGHT,SHOOT,SHOOT]
+	# move left
+	SCRIPT24=[RIGHT,SHOOT,LEFT]
+# Move right, then go left and then:
+	# move right
+	SCRIPT25=[RIGHT,LEFT,RIGHT]
+	# shoot
+	SCRIPT26=[RIGHT,LEFT,SHOOT]
+	# move left
+	SCRIPT27=[RIGHT,LEFT,LEFT]
+
 class ScriptsAIM_9(Enum):
         # Script 1: Move left 2 times then shoot
         SCRIPT1=[LEFT,LEFT,LEFT,LEFT,LEFT,LEFT,SHOOT,SHOOT,SHOOT]
@@ -133,6 +198,10 @@ class ScriptLength(Enum):
 	THREE = 3
 	NINE = 9
 
+class AllCombinations(Enum):
+	ON = "on"
+	OFF = "off"
+
 # GAME SETTINGS FOR RUN.PY
 GAME=Games.AIM
 RENDER_MODE=RenderMode.HUMAN
@@ -143,7 +212,8 @@ GAME_VERSION='v0'
 
 # OVERALL SETTINGS
 SCRIPTS = EnableScripts.ON
-SCRIPT_LENGTH = ScriptLength.NINE # Should be three if scripts is off
+SCRIPT_LENGTH = ScriptLength.THREE # Should be three if scripts is off
+ALL_COMBINATIONS = AllCombinations.ON
 DEFAULT_RENDER_MODE=RenderMode.RGB_ARRAY.value
 DEFAULT_MAXSTEPS=2500000
 DEFAULT_TIMES=100
