@@ -136,7 +136,7 @@ class ScriptLength(Enum):
 # GAME SETTINGS FOR RUN.PY
 GAME=Games.AIM
 RENDER_MODE=RenderMode.HUMAN
-RENDER_SPEED=RenderSpeed.DEBUG
+RENDER_SPEED=RenderSpeed.SLOW
 LIBRARY_NAME="_frame_lib"
 LIBRARY_PATH=str(os.path.dirname(os.path.realpath(__file__))) + "/shared"
 GAME_VERSION='v0'
