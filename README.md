@@ -1,5 +1,3 @@
-# About
-TODO: who are we? what are we doing?
 # Setup
 This project mainly uses the following preexisting software:
 * [OpenAI Gym](https://gym.openai.com/)
@@ -189,3 +187,9 @@ Afterwards, exit the python environment rerun the following command:
 python run.py
 ```
 <!-- If everything was done correctly, the game should be working by now. -->
+
+### Resuming
+If you get something like this when resuming a training, check if the values of the constants.py are the same as when you started training.
+```sh
+TypeError: ary.size 2560 != self.size 2048
+```
