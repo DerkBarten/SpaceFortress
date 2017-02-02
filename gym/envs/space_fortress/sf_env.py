@@ -17,7 +17,7 @@ from pathlib import Path
 import sys
 from constants import *
 import time
-
+import logging
 
 # SFEnv is a child of the environment template located in gym/core.py
 # This instance handles the space fortress environment
@@ -39,7 +39,7 @@ class SFEnv(gym.Env):
 		else:
 			print("Invalid game name")
 			sys.exit(0)
-		
+		self.logger = logging.getLogger()
 		# The game which will be played, the possible games are
 		# located in the enum Games in constants.py
 		self.game = game
@@ -187,6 +187,7 @@ class SFEnv(gym.Env):
 
 	# Configure the space fortress gym environment
 	def _configure(self, mode=DEFAULT_RENDER_MODE, debug=False, record_path=None, no_direction=False, lib_suffix="", frame_skip=SCRIPT_LENGTH.value, libpath=LIBRARY_PATH):
+		
 		self.debug = debug
 		self.frame_skip = frame_skip
 		self.mode = mode
@@ -205,6 +206,10 @@ class SFEnv(gym.Env):
 			libname += "_FULL"
 			
 		libname += ".so"
+		
+		self.logger.info("Using scripts: %s" % SCRIPTS.value)
+		if SCRIPTS == EnableScripts.ON:
+			self.logger.info("Script length: %s" % str(SCRIPT_LENGTH.value))
 		
 		# Link the environment to the shared libraries
 		self.update = ctypes.CDLL(libpath + '/'+libname).update_frame

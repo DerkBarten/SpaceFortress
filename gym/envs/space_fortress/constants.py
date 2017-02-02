@@ -143,7 +143,7 @@ GAME_VERSION='v0'
 
 # OVERALL SETTINGS
 SCRIPTS = EnableScripts.ON
-SCRIPT_LENGTH = ScriptLength.NINE # Should be three if scripts is off
+SCRIPT_LENGTH = ScriptLength.THREE # Should be three if scripts is off
 DEFAULT_RENDER_MODE=RenderMode.RGB_ARRAY.value
 DEFAULT_MAXSTEPS=2500000
 DEFAULT_TIMES=100
