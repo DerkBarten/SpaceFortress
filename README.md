@@ -1,5 +1,3 @@
-# About
-TODO: who are we? what are we doing?
 # Setup
 This project mainly uses the following preexisting software:
 * [OpenAI Gym](https://gym.openai.com/)

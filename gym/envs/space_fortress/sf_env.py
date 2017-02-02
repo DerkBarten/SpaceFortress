@@ -25,7 +25,7 @@ class SFEnv(gym.Env):
 	# - Class variables, these are needed to communicate with the template in gym/core.py
 	metadata = {'render.modes': ['rgb_array', 'human', 'minimal', 'terminal'], 'configure.required' : True}
 
-	# Initialize the environment 
+	# Initialize the environment
 	def __init__(self, game=GAME.value):
 		# Specify the game name which will be shown at the top of the game window
 		if game==Games.SFS.value:
@@ -39,7 +39,11 @@ class SFEnv(gym.Env):
 		else:
 			print("Invalid game name")
 			sys.exit(0)
+<<<<<<< HEAD
 		self.logger = logging.getLogger()
+=======
+
+>>>>>>> 85614e22f5f215f6dd4ad0160dd3ee854f2582d7
 		# The game which will be played, the possible games are
 		# located in the enum Games in constants.py
 		self.game = game
@@ -50,47 +54,49 @@ class SFEnv(gym.Env):
 		self.scale = 5.3
 		# It is possible to specify a seed for random number generation
 		self._seed()
-		
+
 		if game == Games.SFS.value or game == Games.SF.value:
 			# All keys allowed
-			if SCRIPTS.value == "on": # New action space with scripts 
-                            if SCRIPT_LENGTH.value == 3: 
+			if SCRIPTS.value == "on": # New action space with scripts
+                            if SCRIPT_LENGTH.value == 3:
                                 self._action_set = {0 : ScriptsSF_3.SCRIPT1.value, 1 : ScriptsSF_3.SCRIPT2.value, 2 : ScriptsSF_3.SCRIPT3.value, 3 : ScriptsSF_3.SCRIPT4.value, 4 : ScriptsSF_3.SCRIPT5.value}
                             if SCRIPT_LENGTH.value == 9:
                                 self._action_set = {0 : ScriptsSF_9.SCRIPT1.value, 1 : ScriptsSF_9.SCRIPT2.value, 2 : ScriptsSF_9.SCRIPT3.value, 3 : ScriptsSF_9.SCRIPT4.value, 4 : ScriptsSF_9.SCRIPT5.value}
                         else:                     # Old action space single buttons
                             self._action_set = {0 : KeyMap.LEFT.value, 1 : KeyMap.UP.value, 2 : KeyMap.RIGHT.value, 3 : KeyMap.SHOOT.value}
-                            
+
 		if game == Games.AIM.value:
 			# Only rotate left/right and shoot
-			if SCRIPTS.value == "on": # New action space with scripts 
+			if SCRIPTS.value == "on": # New action space with scripts
                             if SCRIPT_LENGTH.value == 3:
                                 self._action_set = {0 : ScriptsAIM_3.SCRIPT1.value, 1 : ScriptsAIM_3.SCRIPT2.value, 2 : ScriptsAIM_3.SCRIPT3.value, 3 : ScriptsAIM_3.SCRIPT4.value, 4 : ScriptsAIM_3.SCRIPT5.value, 5 : ScriptsAIM_3.SCRIPT6.value, 6 : ScriptsAIM_3.SCRIPT7.value}
+                            if SCRIPT_LENGTH.value == 3 and ALL_COMBINATIONS.value == "on":
+                                self._action_set = {0 : ScriptsAIM_3_All.SCRIPT1.value, 1 : ScriptsAIM_3_All.SCRIPT2.value, 2 : ScriptsAIM_3_All.SCRIPT3.value, 3 : ScriptsAIM_3_All.SCRIPT4.value, 4 : ScriptsAIM_3_All.SCRIPT5.value, 5 : ScriptsAIM_3_All.SCRIPT6.value, 6 : ScriptsAIM_3_All.SCRIPT7.value, 7 : ScriptsAIM_3_All.SCRIPT8.value, 8 : ScriptsAIM_3_All.SCRIPT9.value, 9 : ScriptsAIM_3_All.SCRIPT10.value, 10 : ScriptsAIM_3_All.SCRIPT11.value, 11 : ScriptsAIM_3_All.SCRIPT12.value, 12 : ScriptsAIM_3_All.SCRIPT13.value, 13 : ScriptsAIM_3_All.SCRIPT14.value, 14 : ScriptsAIM_3_All.SCRIPT15.value, 15 : ScriptsAIM_3_All.SCRIPT16.value, 16 : ScriptsAIM_3_All.SCRIPT17.value, 17 : ScriptsAIM_3_All.SCRIPT18.value, 18 : ScriptsAIM_3_All.SCRIPT19.value, 19 : ScriptsAIM_3_All.SCRIPT20.value, 20 : ScriptsAIM_3_All.SCRIPT21.value, 21 : ScriptsAIM_3_All.SCRIPT22.value, 22 : ScriptsAIM_3_All.SCRIPT23.value, 23 : ScriptsAIM_3_All.SCRIPT24.value, 24 : ScriptsAIM_3_All.SCRIPT25.value, 25 : ScriptsAIM_3_All.SCRIPT26.value, 26 : ScriptsAIM_3_All.SCRIPT27.value}
                             if SCRIPT_LENGTH.value == 9:
                                 self._action_set = {0 : ScriptsAIM_9.SCRIPT1.value, 1 : ScriptsAIM_9.SCRIPT2.value, 2 : ScriptsAIM_9.SCRIPT3.value, 3 : ScriptsAIM_9.SCRIPT4.value, 4 : ScriptsAIM_9.SCRIPT5.value, 5 : ScriptsAIM_9.SCRIPT6.value, 6 : ScriptsAIM_9.SCRIPT7.value}
 			else:# Old action space single buttons
                             self._action_set = {0 : KeyMap.SHOOT.value, 1 : KeyMap.LEFT.value, 2 : KeyMap.RIGHT.value}
-			
+
 		if game == Games.SFC.value:
 			# Only rotate left/right and forward
-			if SCRIPTS.value == "on": # New action space with scripts 
+			if SCRIPTS.value == "on": # New action space with scripts
                             if SCRIPT_LENGTH.value == 3:
                                 self._action_set = {0 : ScriptsSFC_3.SCRIPT1.value, 1 : ScriptsSFC_3.SCRIPT2.value, 2 : ScriptsSFC_3.SCRIPT3.value, 3 : ScriptsSFC_3.SCRIPT4.value, 4 : ScriptsSFC_3.SCRIPT5.value, 5 : ScriptsSFC_3.SCRIPT6.value, 6 : ScriptsSFC_3.SCRIPT7.value}
                             if SCRIPT_LENGTH.value == 9:
                                 self._action_set = {0 : ScriptsSFC_9.SCRIPT1.value, 1 : ScriptsSFC_9.SCRIPT2.value, 2 : ScriptsSFC_9.SCRIPT3.value, 3 : ScriptsSFC_9.SCRIPT4.value, 4 : ScriptsSFC_9.SCRIPT5.value, 5 : ScriptsSFC_9.SCRIPT6.value, 6 : ScriptsSFC_9.SCRIPT7.value}
 			else:                     # Old action space single buttons
-                            self._action_set = {0 : KeyMap.LEFT.value, 1 : KeyMap.RIGHT.value, 2 : KeyMap.UP.value} 
-                            
+                            self._action_set = {0 : KeyMap.LEFT.value, 1 : KeyMap.RIGHT.value, 2 : KeyMap.UP.value}
+
 		# The number of bytes to read in from the returned image pointer
 		# which happens to be equal to the amount of pixels in the image
 		self.n_bytes = ((int(self.screen_height/self.scale)) * (int(self.screen_width/self.scale)))
-		
-		
+
+
 	@property
 	# Returns the amount of actions
 	def _n_actions(self):
 		return len(self._action_set)
-	
+
 	# Returns the best action
 	def best_action(self):
 		return self.best()
@@ -128,31 +134,31 @@ class SFEnv(gym.Env):
 			img = None
 			render_delay = None
 			new_frame=None
-			
+
 			if mode == RenderMode.HUMAN.value:
 				new_frame = self.pretty_screen().contents
 			else:
 				new_frame = self.screen().contents
 			img = np.ctypeslib.as_array(new_frame)
-			
+
 			if mode == RenderMode.HUMAN.value:
 				img = np.reshape(img, (self.screen_height, self.screen_width, 2))
 				img = cv2.cvtColor(img, cv2.COLOR_BGR5652RGB)
 				img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
 			elif mode == RenderMode.MINIMAL.value:
 				img = np.reshape(img, (int(self.screen_height/self.scale), int(self.screen_width/self.scale)))
-				
+
 			render_delay = RENDER_SPEED.value
-			
+
 			if self.record_path is not None and RECORD:
 				current_time = str(datetime.datetime.now().time().isoformat()).replace("/", ":")
 				cv2.imwrite(self.record_path + "/sf" + current_time + ".png", img)
-			
-			cv2.imshow(self.game_name, img)	
-			cv2.waitKey(render_delay)
-		
 
-	
+			cv2.imshow(self.game_name, img)
+			cv2.waitKey(render_delay)
+
+
+
 	def _reset(self):
 		self.reset_sf()
 		# screen = self.screen().contents
@@ -194,23 +200,27 @@ class SFEnv(gym.Env):
 		# Get the right shared library for the game
 		if self.game == Games.SFS.value:
 			libname = Games.SF.value.lower()
-		elif self.game == Games.AIM.value or self.game == Games.SFC.value or self.game == Games.SF.value:  
+		elif self.game == Games.AIM.value or self.game == Games.SFC.value or self.game == Games.SF.value:
 			libname = self.game.lower()
-		
+
 		# There is no need for a window when in RGB_ARRAY mode
 		if mode != RenderMode.RGB_ARRAY and mode != RenderMode.RGB_ARRAY.value:
 			cv2.namedWindow(self.game_name)
-		
+
 		libname += LIBRARY_NAME
 		if mode == RenderMode.HUMAN or mode == RenderMode.HUMAN.value:
 			libname += "_FULL"
-			
+
 		libname += ".so"
+<<<<<<< HEAD
 		
 		self.logger.info("Using scripts: %s" % SCRIPTS.value)
 		if SCRIPTS == EnableScripts.ON:
 			self.logger.info("Script length: %s" % str(SCRIPT_LENGTH.value))
 		
+=======
+
+>>>>>>> 85614e22f5f215f6dd4ad0160dd3ee854f2582d7
 		# Link the environment to the shared libraries
 		self.update = ctypes.CDLL(libpath + '/'+libname).update_frame
 		self.init_game = ctypes.CDLL(libpath +'/'+libname).start_drawing
@@ -221,7 +231,7 @@ class SFEnv(gym.Env):
 			self.update_logic = ctypes.CDLL(libpath +'/'+libname).SF_iteration
 			self.update_screen = ctypes.CDLL(libpath +'/'+libname).update_screen
 			self.update_screen.restype = ctypes.POINTER(ctypes.c_ubyte * self.n_bytes)
-		except: 
+		except:
 			print("Warning: Some functions where not found in the library.")
 		try:
 			self.best = ctypes.CDLL(libpath +'/'+libname).get_best_move
