@@ -10,5 +10,4 @@ if [ "$1" == "-h" ]; then
   exit 1;
 fi
 
-python src/main.py  $game --backend cpu --environment gym --play_games 20 --display_screen true --load_weights $snapshot
-
+python src/main.py  $game --backend cpu --environment gym --play_games 20 --display_screen true

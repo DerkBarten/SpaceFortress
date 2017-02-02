@@ -136,13 +136,13 @@ class ScriptLength(Enum):
 # GAME SETTINGS FOR RUN.PY
 GAME=Games.AIM
 RENDER_MODE=RenderMode.HUMAN
-RENDER_SPEED=RenderSpeed.DEBUG
+RENDER_SPEED=RenderSpeed.MEDIUM
 LIBRARY_NAME="_frame_lib"
 LIBRARY_PATH=str(os.path.dirname(os.path.realpath(__file__))) + "/shared"
 GAME_VERSION='v0'
 
 # OVERALL SETTINGS
-SCRIPTS = EnableScripts.ON
+SCRIPTS = EnableScripts.OFF
 SCRIPT_LENGTH = ScriptLength.NINE # Should be three if scripts is off
 DEFAULT_RENDER_MODE=RenderMode.RGB_ARRAY.value
 DEFAULT_MAXSTEPS=2500000
