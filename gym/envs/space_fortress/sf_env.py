@@ -110,10 +110,16 @@ class SFEnv(gym.Env):
 		action = self._action_set[a] # Select the action from the action dictq
 		reward = 0.0
 		done = False
-		self.act(action)
-		self.update_logic()
-		reward += self.score()
-		done = self.terminal_state()
+		for frame in range(self.frame_skip):
+			if not isinstance(action, list):
+				self.act(action)
+			else:
+				self.act(action[frame])
+			self.update_logic()
+			reward += self.score()
+			done = self.terminal_state()
+			if done:
+				break
 		ob = np.ctypeslib.as_array(self.update_screen().contents)
 		return ob, reward, done, {}
 
