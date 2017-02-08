@@ -1,10 +1,9 @@
-#!/usr/bin/env bash
 game="$1"
 experiment="$2"
 inputfile=runs/$game/$experiment/${game}_${experiment}.csv
 
 # ignore the extension of the output file
-outputfile=`echo $2 | cut -d . -f 1`.png 
+outputfile=`echo $2 | cut -d . -f 1`.png
 
 
 if [ `wc -l < ${inputfile}` == 0 ];then

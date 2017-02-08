@@ -1,5 +1,3 @@
-#!/usr/bin/env bash
-
 game=$1
 experiment=$2
 version=-v0
@@ -26,4 +24,3 @@ python src/main.py  ${game}${version}\
 			--play_games 20\
 			--display_screen true\
 			--load_weights ${weights}
-

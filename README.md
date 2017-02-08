@@ -5,7 +5,7 @@ This project mainly uses the following preexisting software:
 * SpaceFortress
 
 ### OpenAI Gym
-A toolkit for developing and comparing reinforcement learning algorithms. It supports teaching agents everything from walking to playing games like Pong or Go.Gym will create an environment in which the learning algorithm wiil learn the game.
+A toolkit for developing and comparing reinforcement learning algorithms. It supports teaching agents everything from walking to playing games like Pong or Go. Gym will create an environment in which the learning algorithm wiil learn the game.
 
 ### Simple DQN
 Deep Q-learning agent for replicating DeepMind's results in paper "Human-level control through deep reinforcement learning". It is designed to be simple, fast and easy to extend. This algorithm will be used.to learn the game.
@@ -16,10 +16,10 @@ An old DOS game that will be learned by the network.
 # Download
 Download the repository. Make sure you execute the command in which you want to install the repository. Git creates a new folder called SpaceFortress where the repository will be placed.
 ```sh
-sudo git clone https://github.com/Noswis/SpaceFortress.git 
+sudo git clone https://github.com/Noswis/SpaceFortress.git
 cd SpaceFortress
 ```
-
+- - - -
 # Installation
 During the installation process, please make sure the terminal resides in the SpaceFortress folder.
 ### Neon
@@ -77,7 +77,7 @@ If you run into any problems installing, please visit [this page](https://www.ca
 ### Shared Libraries
 Go to the Game folder
 The learning environment needs shared libraries, which can be built from the sourcecode of the SpaceFortress game. In the folder 'game' are multiple subfolders which are subtasks of the original game.
-* SF is the game with most elements included 
+* SF is the game with most elements included
 * AIM is the stripped version of the game which focusses on the aiming task
 * SFC is the stripped version of the game which focusses on the control task
 
@@ -88,7 +88,7 @@ sudo apt-get install clang
 
 The Makefile has several build options, as listed below:
 * SF
-* AIM 
+* AIM
 * SFC
 * all
 * clean
@@ -124,7 +124,7 @@ You can skip to the part below and go to the next section *Usage*.
 
 If an error occurs as below, please head over to the *Troubleshoot* section
 ```sh
-"OpenCV Error: Unspecified error (The function is not implemented. Rebuild the library with Windows, GTK+ 2.x or Carbon support. If you are on Ubuntu or Debian, install libgtk2.0-dev and pkg-config, then re-run cmake or configure script) in cvNamedWindow, file /io/opencv/modules/highui/src/window.cpp, line 565" 
+"OpenCV Error: Unspecified error (The function is not implemented. Rebuild the library with Windows, GTK+ 2.x or Carbon support. If you are on Ubuntu or Debian, install libgtk2.0-dev and pkg-config, then re-run cmake or configure script) in cvNamedWindow, file /io/opencv/modules/highui/src/window.cpp, line 565"
 ```
 - - - -
 # Usage
@@ -144,10 +144,7 @@ the main python script in src along with parameters which specify where to save 
 ./train.sh SFC MyFirstTraining cpu
 ```
 Instead of SFC, it is also possible to train AIM, SFS and SF.
-To show the help prompt use the command below:
-```sh
-./train.sh -h 
-```
+
 ### Resume Training
 With the resume script, a halted training process can be resumed.
 ```sh
@@ -157,10 +154,31 @@ The learning algorithm uses 'epochs', which can be seen as checkpoints. The epoc
 
 Note: Please make sure the network trained until one epoch before trying to resume. The script will otherwise not work, because no checkpoint was saved.
 
-To show the help prompt use the command below:
+
+### Plot training
+The training can be plotted with plot.sh. For instance:
 ```sh
-./resume.sh -h 
+./plot.sh SFC MyFirstTraining outputFile
 ```
+The last parameter is optional, this is the name of the .png file where the
+graphs will be stored. When removing the last parameter, the graphs are plotted
+in a newly created window.
+
+### Get best epoch
+The best epoch of a training can be retrieved by running get_best.sh. For instance:
+```sh
+./get_best.sh SFC MyFirstTraining
+```
+This will save the best epoch in the snapshots folder
+
+### Play best epoch
+To play the best epoch of a training, run ./play_best.sh. It can be run in this way:
+```sh
+./play_best.sh SFC MyFirstTraining
+```
+It is not needed to first run get_best before play_best, the play_best automatically
+checks if the .prm file is located in the snapshots folder. If not, it runs get_best
+first.
 - - - -
 # Troubleshoot
 When setting up the repository, you might encounter bugs. This section covers the bugs our team found when setting up our repository on multiple systems.
@@ -168,7 +186,7 @@ When setting up the repository, you might encounter bugs. This section covers th
 Retry to install the correct openCV dependencies
 ```sh
 sudo apt-get install libopencv-dev python-opencv
-``` 
+```
 
 Open a new terminal and execute the commands:
 ```sh
@@ -189,7 +207,8 @@ python run.py
 <!-- If everything was done correctly, the game should be working by now. -->
 
 ### Resuming
-If you get something like this when resuming a training, check if the values of the constants.py are the same as when you started training.
+If you get something like this when resuming a training, check if the values of the constants.py are the same as when you started training. This indicates that the
+settings are not the same as the settings you started training with.
 ```sh
 TypeError: ary.size 2560 != self.size 2048
 ```

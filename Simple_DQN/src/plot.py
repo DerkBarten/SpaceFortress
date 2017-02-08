@@ -17,7 +17,7 @@ args = parser.parse_args()
 
 # field definitions for numpy
 dtype = [
-  ("epoch", "int"), 
+  ("epoch", "int"),
   ("phase", "S6"),
   ("steps", "int"),
   ("nr_games", "int"),
@@ -42,7 +42,7 @@ test_idx = data['phase'] == 'test'
 
 # definitions for plot titles
 labels = {
-  "epoch": "Epoch", 
+  "epoch": "Epoch",
   "phase": "Phase",
   "steps": "Number of steps",
   "nr_games": "Number of games",
@@ -70,6 +70,7 @@ plt.figure(figsize = (args.figure_width, args.figure_height))
 # plot all fields
 for i, field in enumerate(args.fields):
   plt.subplot(rows, cols, i + 1)
+  # if you want to plot a random baseline, take a look at an earlier version of this file
   plt.plot(data['epoch'][train_idx], data[field][train_idx])
   plt.plot(data['epoch'][test_idx], data[field][test_idx])
   plt.legend(["Train", "Test"], loc = "best")

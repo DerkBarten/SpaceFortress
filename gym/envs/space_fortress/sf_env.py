@@ -1,7 +1,3 @@
-#!/usr/bin/env python
-# -*- coding: utf-8 -*-
-
-
 import gym
 from gym.utils import seeding
 from gym import spaces
@@ -39,7 +35,7 @@ class SFEnv(gym.Env):
 		else:
 			print("Invalid game name")
 			sys.exit(0)
-			
+
 		self.logger = logging.getLogger()
 		# The game which will be played, the possible games are
 		# located in the enum Games in constants.py
@@ -175,10 +171,6 @@ class SFEnv(gym.Env):
 				dict_writer.writerow({"Won" : t == 1})
 
 		self.terminal_states = []
-
-			# ...
-			# Add more rows here
-
 		csvfile.close()
 
 	def _close(self):
@@ -190,9 +182,9 @@ class SFEnv(gym.Env):
 
 	# Configure the space fortress gym environment
 	def _configure(self, mode=DEFAULT_RENDER_MODE, debug=False, record_path=None, no_direction=False, lib_suffix="", frame_skip=SCRIPT_LENGTH.value, libpath=LIBRARY_PATH):
-		
+
 		self.debug = debug
-		# overwrite from constants.py
+		# Hard overwrite from constants.py
 		self.frame_skip = FRAMESKIP
 		self.mode = mode
 		# Get the right shared library for the game
@@ -210,12 +202,12 @@ class SFEnv(gym.Env):
 			libname += "_FULL"
 
 		libname += ".so"
-		
+
 		self.logger.info("Using scripts: %s" % SCRIPTS.value)
 		if SCRIPTS == EnableScripts.ON:
 			self.logger.info("Script length: %s" % str(SCRIPT_LENGTH.value))
 		self.logger.info("With FrameSkip: %s" % FRAMESKIP)
-		
+
 		# Link the environment to the shared libraries
 		self.update = ctypes.CDLL(libpath + '/'+libname).update_frame
 		self.init_game = ctypes.CDLL(libpath +'/'+libname).start_drawing
